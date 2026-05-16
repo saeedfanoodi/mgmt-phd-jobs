@@ -3,6 +3,8 @@ on:
   schedule:
     - cron: "0 13 * * *"  # 08:00 US Central (13:00 UTC)
   workflow_dispatch: {}
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 permissions:
   contents: write
 jobs:
