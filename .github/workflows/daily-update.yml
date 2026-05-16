@@ -1,0 +1,30 @@
+name: Daily Jobs Update
+on:
+  schedule:
+    - cron: "0 13 * * *"  # 08:00 US Central (13:00 UTC)
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install -r scripts/requirements.txt
+      - name: Scrape and update
+        run: python scripts/update_jobs.py
+      - name: Commit if changed
+        run: |
+          git config user.email "bot@saeedfanoodi.me"
+          git config user.name "Jobs Bot"
+          git add jobs.json sources_status.json
+          if git diff --staged --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Daily jobs update $(date -u +%F)"
+            git push
+          fi

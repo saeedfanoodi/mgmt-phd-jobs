@@ -185,15 +185,17 @@ a:hover { text-decoration: underline; }
   </div>
 
   <div class="section">
-    <h2 class="section-title">Weekly Digest Schedule</h2>
-    <div class="section-sub">A scheduled task runs every Monday at 8:00 AM local time, scans for new postings matching your filters (Management / Strategy / AI / Entrepreneurship in USA, Canada, Australia, NZ, UAE), and updates this tracker. Urgent items (deadline ≤ 14 days) are flagged in red.</div>
+    <h2 class="section-title">Sources scanned</h2>
+    <div class="section-sub" id="sources-sub">Loading source status…</div>
+    <div id="sources-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px;font-size:12px;"></div>
   </div>
 </div>
 
 <script>
-// ===== Seed dataset =====
-// "salaryConfirmed" = true if salary was in the actual job posting; false = AACSB/Glassdoor estimate
-const JOBS = [
+// Data is regenerated daily by GitHub Actions in scripts/update_jobs.py
+// jobs.json holds the canonical dataset; this inline array is a fallback only.
+let JOBS = [];
+const FALLBACK_JOBS = [
   {
     school: "University of Hartford — Barney School of Business",
     dept: "Management",
@@ -646,9 +648,6 @@ document.getElementById('search').addEventListener('input', e => {
   renderPacket();
 });
 
-renderStats();
-renderTable();
-renderPacket();
-</script>
-</body>
-</html>
+function renderSources(status) {
+  const sub = document.getElementById('sources-sub');
+  const grid = document.getElementBy
