@@ -138,11 +138,11 @@ a:hover { text-decoration: underline; }
 </head>
 <body>
 <div class="wrap">
-  <h1>Management PhD Faculty Jobs â€” Saeed's Tracker</h1>
-  <div class="subtitle">Tenure-track &amp; faculty positions in Management (Strategy / AI / Entrepreneurship) â€” USA, Canada, Australia, New Zealand, UAE. Modeled after mgmtphdjobs.com.</div>
+  <h1>Management PhD Faculty Jobs — Saeed's Tracker</h1>
+  <div class="subtitle">Tenure-track &amp; faculty positions in Management (Strategy / AI / Entrepreneurship) — USA, Canada, Australia, New Zealand, UAE. Modeled after mgmtphdjobs.com.</div>
 
   <div class="note-box">
-    <strong>Note on salaries:</strong> Confirmed figures come from the actual job posting; <em>italicized</em> figures are estimates based on AACSB 2024-25 business-school faculty benchmarks (Strategy/Management new-hire Assistant Professor median â‰ˆ USD $175k at R1, $130-150k at regional/teaching schools; Canada CAD $115-160k; Australia AUD $115-160k Level B; New Zealand NZD $100-140k; UAE USD $90-140k typically tax-free + housing). Treat estimates as a planning range, not an offer.
+    <strong>Note on salaries:</strong> Confirmed figures come from the actual job posting; <em>italicized</em> figures are estimates based on AACSB 2024-25 business-school faculty benchmarks (Strategy/Management new-hire Assistant Professor median ≈ USD $175k at R1, $130-150k at regional/teaching schools; Canada CAD $115-160k; Australia AUD $115-160k Level B; New Zealand NZD $100-140k; UAE USD $90-140k typically tax-free + housing). Treat estimates as a planning range, not an offer.
   </div>
 
   <div class="stats" id="stats"></div>
@@ -172,7 +172,7 @@ a:hover { text-decoration: underline; }
       <span class="chip" data-filter="type" data-value="Lecturer">Lecturer</span>
       <span class="chip" data-filter="type" data-value="Open Rank">Open Rank</span>
     </div>
-    <input type="text" class="search-input" id="search" placeholder="Search school, area, keywordâ€¦" />
+    <input type="text" class="search-input" id="search" placeholder="Search school, area, keyword…" />
   </div>
 
   <div id="table"></div>
@@ -186,7 +186,7 @@ a:hover { text-decoration: underline; }
 
   <div class="section">
     <h2 class="section-title">Sources scanned</h2>
-    <div class="section-sub" id="sources-sub">Loading source statusâ€¦</div>
+    <div class="section-sub" id="sources-sub">Loading source status…</div>
     <div id="sources-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px;font-size:12px;"></div>
   </div>
 </div>
@@ -197,7 +197,7 @@ a:hover { text-decoration: underline; }
 let JOBS = [];
 const FALLBACK_JOBS = [
   {
-    school: "University of Hartford â€” Barney School of Business",
+    school: "University of Hartford — Barney School of Business",
     dept: "Management",
     position: "Assistant Professor of Strategic Management",
     type: "Tenure Track",
@@ -213,11 +213,11 @@ const FALLBACK_JOBS = [
   {
     school: "Colorado State University",
     dept: "Management",
-    position: "Assistant Professor â€” Strategy / Entrepreneurship",
+    position: "Assistant Professor — Strategy / Entrepreneurship",
     type: "Tenure Track",
     country: "USA",
     field: "Strategy, Entrepreneurship",
-    salary: "$140,000 â€“ $165,000 (est.)",
+    salary: "$140,000 – $165,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Aug 16, 2026",
@@ -225,13 +225,13 @@ const FALLBACK_JOBS = [
     notes: "PhD in Strategy or Entrep; ABD ok if defended by Aug 2026"
   },
   {
-    school: "Indiana University â€” Kelley School of Business",
+    school: "Indiana University — Kelley School of Business",
     dept: "Management & Entrepreneurship",
-    position: "Assistant/Associate Professor â€” Strategic Management",
+    position: "Assistant/Associate Professor — Strategic Management",
     type: "Tenure Track",
     country: "USA",
     field: "Strategy",
-    salary: "$200,000 â€“ $230,000 (est.)",
+    salary: "$200,000 – $230,000 (est.)",
     salaryConfirmed: false,
     deadline: "Rolling (priority Sep 26, 2025)",
     start: "Fall 2026",
@@ -239,13 +239,13 @@ const FALLBACK_JOBS = [
     notes: "R1 top-tier; multiple lines"
   },
   {
-    school: "Texas Christian University â€” Neeley School",
+    school: "Texas Christian University — Neeley School",
     dept: "Management & Leadership",
-    position: "Assistant Professor â€” Strategic Management",
+    position: "Assistant Professor — Strategic Management",
     type: "Tenure Track",
     country: "USA",
     field: "Strategy",
-    salary: "$170,000 â€“ $200,000 (est.)",
+    salary: "$170,000 – $200,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Fall 2026",
@@ -259,7 +259,7 @@ const FALLBACK_JOBS = [
     type: "Tenure Track",
     country: "USA",
     field: "Strategy",
-    salary: "$210,000 â€“ $260,000 (est.)",
+    salary: "$210,000 – $260,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Jul 1, 2026",
@@ -273,7 +273,7 @@ const FALLBACK_JOBS = [
     type: "Tenure Track",
     country: "USA",
     field: "Strategy, Entrepreneurship",
-    salary: "$220,000 â€“ $275,000 (est.)",
+    salary: "$220,000 – $275,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Jul 2026",
@@ -281,13 +281,13 @@ const FALLBACK_JOBS = [
     notes: "Elite R1; case-based teaching"
   },
   {
-    school: "Iona University â€” Hynes Institute",
+    school: "Iona University — Hynes Institute",
     dept: "Entrepreneurship & Innovation",
     position: "Assistant Professor of Entrepreneurship",
     type: "Tenure Track",
     country: "USA",
     field: "Entrepreneurship",
-    salary: "$120,000 â€“ $145,000 (est.)",
+    salary: "$120,000 – $145,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Aug 2026",
@@ -301,7 +301,7 @@ const FALLBACK_JOBS = [
     type: "Tenure Track",
     country: "USA",
     field: "Entrepreneurship",
-    salary: "$160,000 â€“ $185,000 (est.)",
+    salary: "$160,000 – $185,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Fall 2026",
@@ -309,13 +309,13 @@ const FALLBACK_JOBS = [
     notes: "Business-only AACSB"
   },
   {
-    school: "University of Tennessee Knoxville â€” Haslam",
+    school: "University of Tennessee Knoxville — Haslam",
     dept: "Business Analytics & Statistics",
-    position: "Assistant Professor â€” Business Analytics (Applied AI/ML)",
+    position: "Assistant Professor — Business Analytics (Applied AI/ML)",
     type: "Tenure Track",
     country: "USA",
     field: "AI",
-    salary: "$170,000 â€“ $200,000 (est.)",
+    salary: "$170,000 – $200,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Aug 2026",
@@ -323,13 +323,13 @@ const FALLBACK_JOBS = [
     notes: "Cross-listed; AI/ML in business apps"
   },
   {
-    school: "Ohio State â€” Fisher College of Business",
+    school: "Ohio State — Fisher College of Business",
     dept: "Management & Human Resources",
-    position: "Open-Rank Professor â€” Artificial Intelligence",
+    position: "Open-Rank Professor — Artificial Intelligence",
     type: "Open Rank",
     country: "USA",
     field: "AI, Strategy",
-    salary: "$180,000 â€“ $300,000 (est., rank dependent)",
+    salary: "$180,000 – $300,000 (est., rank dependent)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Fall 2026",
@@ -339,11 +339,11 @@ const FALLBACK_JOBS = [
   {
     school: "Utah Valley University",
     dept: "Technology Management",
-    position: "Assistant Professor â€” Applied AI",
+    position: "Assistant Professor — Applied AI",
     type: "Tenure Track",
     country: "USA",
     field: "AI",
-    salary: "$95,000 â€“ $115,000 (est.)",
+    salary: "$95,000 – $115,000 (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Aug 2026",
@@ -351,13 +351,13 @@ const FALLBACK_JOBS = [
     notes: "Teaching-intensive regional"
   },
   {
-    school: "University of New Brunswick â€” Saint John",
+    school: "University of New Brunswick — Saint John",
     dept: "Faculty of Business",
-    position: "Assistant/Associate Professor â€” Strategy",
+    position: "Assistant/Associate Professor — Strategy",
     type: "Tenure Track",
     country: "Canada",
     field: "Strategy, Entrepreneurship",
-    salary: "CAD $115,000 â€“ $145,000 (est.)",
+    salary: "CAD $115,000 – $145,000 (est.)",
     salaryConfirmed: false,
     deadline: "Apr 27, 2026 (review begins, open after)",
     start: "Jul 1, 2026",
@@ -365,13 +365,13 @@ const FALLBACK_JOBS = [
     notes: "PhD with focus on Business/Corporate Strategy; AACSB preferred"
   },
   {
-    school: "University of Toronto â€” Rotman",
+    school: "University of Toronto — Rotman",
     dept: "Strategic Management",
-    position: "Assistant Professor â€” Strategy",
+    position: "Assistant Professor — Strategy",
     type: "Tenure Track",
     country: "Canada",
     field: "Strategy",
-    salary: "CAD $160,000 â€“ $200,000 (est.)",
+    salary: "CAD $160,000 – $200,000 (est.)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "Jul 2026",
@@ -380,12 +380,12 @@ const FALLBACK_JOBS = [
   },
   {
     school: "University of Sharjah",
-    dept: "College of Business Administration â€” Management",
-    position: "Assistant/Associate Professor â€” Management",
+    dept: "College of Business Administration — Management",
+    position: "Assistant/Associate Professor — Management",
     type: "Tenure Track",
     country: "UAE",
     field: "Strategy, Entrepreneurship",
-    salary: "AED 35,000 â€“ 50,000/month + housing (est., â‰ˆ USD $115-165k)",
+    salary: "AED 35,000 – 50,000/month + housing (est., ≈ USD $115-165k)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "Fall 2026",
@@ -395,11 +395,11 @@ const FALLBACK_JOBS = [
   {
     school: "NYU Abu Dhabi",
     dept: "Social Science / Business",
-    position: "Assistant Professor â€” Management & Organizations",
+    position: "Assistant Professor — Management & Organizations",
     type: "Tenure Track",
     country: "UAE",
     field: "Strategy",
-    salary: "USD $180,000 â€“ $230,000 + housing (est.)",
+    salary: "USD $180,000 – $230,000 + housing (est.)",
     salaryConfirmed: false,
     deadline: "Open until filled",
     start: "Sep 2026",
@@ -409,11 +409,11 @@ const FALLBACK_JOBS = [
   {
     school: "Khalifa University",
     dept: "Industrial & Systems Engineering / Management",
-    position: "Assistant/Associate Professor â€” Strategy & Innovation",
+    position: "Assistant/Associate Professor — Strategy & Innovation",
     type: "Tenure Track",
     country: "UAE",
     field: "Strategy, AI",
-    salary: "USD $130,000 â€“ $170,000 + housing (est.)",
+    salary: "USD $130,000 – $170,000 + housing (est.)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "Fall 2026",
@@ -421,27 +421,27 @@ const FALLBACK_JOBS = [
     notes: "Tax-free; STEM-heavy"
   },
   {
-    school: "University of Melbourne â€” Melbourne Business School",
+    school: "University of Melbourne — Melbourne Business School",
     dept: "Management & Marketing",
-    position: "Lecturer / Senior Lecturer â€” Strategy",
+    position: "Lecturer / Senior Lecturer — Strategy",
     type: "Tenure Track",
     country: "Australia",
     field: "Strategy",
-    salary: "AUD $120,000 â€“ $165,000 (est.; Level B/C)",
+    salary: "AUD $120,000 – $165,000 (est.; Level B/C)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "2026",
     link: "https://academicpositions.com/employer/the-university-of-melbourne",
-    notes: "Lecturer (AU) â‰ˆ Assistant Prof (US); continuing/tenure-track equivalent"
+    notes: "Lecturer (AU) ≈ Assistant Prof (US); continuing/tenure-track equivalent"
   },
   {
     school: "University of Sydney Business School",
     dept: "Strategy, Innovation & Entrepreneurship",
-    position: "Lecturer / Senior Lecturer â€” Strategy & Innovation",
+    position: "Lecturer / Senior Lecturer — Strategy & Innovation",
     type: "Tenure Track",
     country: "Australia",
     field: "Strategy, Entrepreneurship",
-    salary: "AUD $125,000 â€“ $165,000 (est.)",
+    salary: "AUD $125,000 – $165,000 (est.)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "2026",
@@ -451,11 +451,11 @@ const FALLBACK_JOBS = [
   {
     school: "UNSW Business School",
     dept: "Strategy & Entrepreneurship",
-    position: "Lecturer / Senior Lecturer â€” Strategy",
+    position: "Lecturer / Senior Lecturer — Strategy",
     type: "Tenure Track",
     country: "Australia",
     field: "Strategy",
-    salary: "AUD $120,000 â€“ $160,000 (est.)",
+    salary: "AUD $120,000 – $160,000 (est.)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "2026",
@@ -465,11 +465,11 @@ const FALLBACK_JOBS = [
   {
     school: "University of Auckland Business School",
     dept: "Management & International Business",
-    position: "Lecturer / Senior Lecturer â€” Strategy",
+    position: "Lecturer / Senior Lecturer — Strategy",
     type: "Tenure Track",
     country: "New Zealand",
     field: "Strategy, Entrepreneurship",
-    salary: "NZD $105,000 â€“ $145,000 (est.)",
+    salary: "NZD $105,000 – $145,000 (est.)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "2026",
@@ -479,11 +479,11 @@ const FALLBACK_JOBS = [
   {
     school: "Victoria University of Wellington",
     dept: "School of Management",
-    position: "Lecturer â€” Strategy / Entrepreneurship",
+    position: "Lecturer — Strategy / Entrepreneurship",
     type: "Tenure Track",
     country: "New Zealand",
     field: "Strategy, Entrepreneurship",
-    salary: "NZD $100,000 â€“ $130,000 (est.)",
+    salary: "NZD $100,000 – $130,000 (est.)",
     salaryConfirmed: false,
     deadline: "Rolling",
     start: "2026",
@@ -532,7 +532,7 @@ function deadlineFmt(d) {
     if (m) {
       const dt = new Date(m[1]);
       const days = (dt - new Date()) / 86400000;
-      if (days >= 0 && days <= 14) return `<span class="deadline-urgent">${d} âš </span>`;
+      if (days >= 0 && days <= 14) return `<span class="deadline-urgent">${d} ⚠</span>`;
       if (days >= 0 && days <= 45) return `<span class="deadline-soon">${d}</span>`;
     }
   }
@@ -568,7 +568,7 @@ function rowsForGrid() {
     salaryFmt(j.salary, j.salaryConfirmed),
     deadlineFmt(j.deadline),
     j.start,
-    `<a class="col-link" href="${j.link}" target="_blank" rel="noopener">View â†’</a>`,
+    `<a class="col-link" href="${j.link}" target="_blank" rel="noopener">View →</a>`,
     `<div class="notes-cell">${j.notes || ''}</div>`
   ]);
 }
@@ -607,7 +607,7 @@ function renderPacket() {
     if (!packetState[key]) packetState[key] = { CV: true, 'Cover Ltr': false, Research: false, Teaching: false, EDI: false, JMP: false, 'Refs (3)': false };
     const cells = PACKET_FIELDS.map(f => {
       const yes = packetState[key][f];
-      return `<div class="cell-center"><span class="check ${yes ? 'yes' : 'no'}" data-key="${key}" data-field="${f}" style="cursor:pointer">${yes ? 'âœ“' : 'â—‹'}</span></div>`;
+      return `<div class="cell-center"><span class="check ${yes ? 'yes' : 'no'}" data-key="${key}" data-field="${f}" style="cursor:pointer">${yes ? '✓' : '○'}</span></div>`;
     }).join('');
     const done = PACKET_FIELDS.filter(f => packetState[key][f]).length;
     const pct = Math.round(100 * done / PACKET_FIELDS.length);
@@ -651,4 +651,3 @@ document.getElementById('search').addEventListener('input', e => {
 function renderSources(status) {
   const sub = document.getElementById('sources-sub');
   const grid = document.getElementBy
-<!-- rebuild -->
