@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Management PhD Faculty Jobs Tracker</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/theme/mermaid.min.css" integrity="sha384-rcOiOEAdoiB2dwhSx0vR8/IjnZmpKEbY4tnQbN5ZB6Mtj//+VL1k9Pcr9KQqQpAj" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/gridjs.umd.js" integrity="sha384-/XXDzxe4FsGiAe50i/u9pY/Vy/uX654MHB1xoc1BJNnH1WXHhqHga9g3q5tF4gj7" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.wrap { padding: 16px 20px 60px; max-width: 1600px; margin: 0 auto; }
+h1 { font-size: 22px; margin: 0 0 4px; font-weight: 600; }
+.subtitle { color: #555; font-size: 13px; margin-bottom: 18px; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stat {
+  background: #f6f7f9;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.stat .v { font-size: 22px; font-weight: 600; color: #111; }
+.stat .l { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px;}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+  align-items: center;
+}
+.filter-group { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.filter-group .label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
+.chip {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  color: #374151;
+}
+.chip:hover { background: #f3f4f6; }
+.chip.active { background: #111827; color: #fff; border-color: #111827; }
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.tag-tt { background: #dcfce7; color: #166534; }
+.tag-ntt { background: #fef3c7; color: #92400e; }
+.tag-lect { background: #ddd6fe; color: #5b21b6; }
+.tag-vap { background: #fee2e2; color: #991b1b; }
+.tag-open { background: #e0e7ff; color: #3730a3; }
+.tag-strategy { background: #cffafe; color: #155e75; }
+.tag-ai { background: #fce7f3; color: #9d174d; }
+.tag-entrep { background: #fef9c3; color: #854d0e; }
+.tag-mgmt { background: #f3f4f6; color: #374151; }
+.deadline-urgent { color: #b91c1c; font-weight: 600; }
+.deadline-soon { color: #c2410c; font-weight: 500; }
+.salary-est { color: #6b7280; font-style: italic; }
+.salary-confirmed { color: #111827; font-weight: 500; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.section { margin-top: 28px; }
+.section-title { font-size: 15px; font-weight: 600; margin: 0 0 8px; color: #111827; }
+.section-sub { font-size: 12px; color: #6b7280; margin-bottom: 10px; }
+.packet {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.packet-row {
+  display: grid;
+  grid-template-columns: 2fr repeat(6, 1fr) 1fr;
+  gap: 6px;
+  font-size: 12px;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 6px 4px;
+}
+.packet-row.header {
+  font-weight: 600;
+  color: #475569;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid #e2e8f0;
+  background: #f8fafc;
+}
+.packet-row .cell-center { text-align: center; }
+.check { font-size: 16px; }
+.check.yes { color: #16a34a; }
+.check.no { color: #cbd5e1; }
+.notes-cell { color: #475569; font-size: 11px; }
+.note-box {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #78350f;
+  margin-bottom: 14px;
+}
+.legend { font-size: 11px; color: #6b7280; margin-top: 6px; }
+.gridjs-table { font-size: 12.5px !important; }
+.gridjs-th { background: #f8fafc !important; font-weight: 600 !important; font-size: 11px !important; text-transform: uppercase; letter-spacing: 0.03em; }
+.gridjs-td { vertical-align: top !important; padding: 8px 10px !important; }
+.gridjs-wrapper { border-radius: 8px !important; box-shadow: 0 0 0 1px #e5e7eb !important; }
+.school { font-weight: 600; color: #111827; }
+.dept { color: #6b7280; font-size: 11px; }
+.col-link { white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Management PhD Faculty Jobs — Saeed's Tracker</h1>
+  <div class="subtitle">Tenure-track &amp; faculty positions in Management (Strategy / AI / Entrepreneurship) — USA, Canada, Australia, New Zealand, UAE. Modeled after mgmtphdjobs.com.</div>
+
+  <div class="note-box">
+    <strong>Note on salaries:</strong> Confirmed figures come from the actual job posting; <em>italicized</em> figures are estimates based on AACSB 2024-25 business-school faculty benchmarks (Strategy/Management new-hire Assistant Professor median ≈ USD $175k at R1, $130-150k at regional/teaching schools; Canada CAD $115-160k; Australia AUD $115-160k Level B; New Zealand NZD $100-140k; UAE USD $90-140k typically tax-free + housing). Treat estimates as a planning range, not an offer.
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <span class="label">Country</span>
+      <span class="chip active" data-filter="country" data-value="all">All</span>
+      <span class="chip" data-filter="country" data-value="USA">USA</span>
+      <span class="chip" data-filter="country" data-value="Canada">Canada</span>
+      <span class="chip" data-filter="country" data-value="Australia">Australia</span>
+      <span class="chip" data-filter="country" data-value="New Zealand">New Zealand</span>
+      <span class="chip" data-filter="country" data-value="UAE">UAE</span>
+    </div>
+    <div class="filter-group">
+      <span class="label">Field</span>
+      <span class="chip active" data-filter="field" data-value="all">All</span>
+      <span class="chip" data-filter="field" data-value="Strategy">Strategy</span>
+      <span class="chip" data-filter="field" data-value="AI">AI / Analytics</span>
+      <span class="chip" data-filter="field" data-value="Entrepreneurship">Entrepreneurship</span>
+    </div>
+    <div class="filter-group">
+      <span class="label">Type</span>
+      <span class="chip active" data-filter="type" data-value="all">All</span>
+      <span class="chip" data-filter="type" data-value="Tenure Track">Tenure-Track</span>
+      <span class="chip" data-filter="type" data-value="Non-Tenure Track">Non-TT</span>
+      <span class="chip" data-filter="type" data-value="Lecturer">Lecturer</span>
+      <span class="chip" data-filter="type" data-value="Open Rank">Open Rank</span>
+    </div>
+    <input type="text" class="search-input" id="search" placeholder="Search school, area, keyword…" />
+  </div>
+
+  <div id="table"></div>
+  <div class="legend">Click a column header to sort. Salary <span class="salary-confirmed">in bold</span> = confirmed from posting; <span class="salary-est">italics</span> = estimated range from AACSB / Glassdoor benchmarks.</div>
+
+  <div class="section">
+    <h2 class="section-title">Application Packet Checklist</h2>
+    <div class="section-sub">Track which materials each application still needs. Standard packet: CV, Research statement, Teaching statement, Diversity/EDI statement, Job market paper, References (3), Cover letter, Transcripts.</div>
+    <div class="packet" id="packet"></div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Weekly Digest Schedule</h2>
+    <div class="section-sub">A scheduled task runs every Monday at 8:00 AM local time, scans for new postings matching your filters (Management / Strategy / AI / Entrepreneurship in USA, Canada, Australia, NZ, UAE), and updates this tracker. Urgent items (deadline ≤ 14 days) are flagged in red.</div>
+  </div>
+</div>
+
+<script>
+// ===== Seed dataset =====
+// "salaryConfirmed" = true if salary was in the actual job posting; false = AACSB/Glassdoor estimate
+const JOBS = [
+  {
+    school: "University of Hartford — Barney School of Business",
+    dept: "Management",
+    position: "Assistant Professor of Strategic Management",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$112,000",
+    salaryConfirmed: true,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    link: "https://www.higheredjobs.com/details.cfm?JobCode=179268823",
+    notes: "3-3 load; UG + grad strategy"
+  },
+  {
+    school: "Colorado State University",
+    dept: "Management",
+    position: "Assistant Professor — Strategy / Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy, Entrepreneurship",
+    salary: "$140,000 – $165,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 16, 2026",
+    link: "https://jobs.colostate.edu/postings/164619",
+    notes: "PhD in Strategy or Entrep; ABD ok if defended by Aug 2026"
+  },
+  {
+    school: "Indiana University — Kelley School of Business",
+    dept: "Management & Entrepreneurship",
+    position: "Assistant/Associate Professor — Strategic Management",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$200,000 – $230,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling (priority Sep 26, 2025)",
+    start: "Fall 2026",
+    link: "https://indiana.peopleadmin.com/postings/30888",
+    notes: "R1 top-tier; multiple lines"
+  },
+  {
+    school: "Texas Christian University — Neeley School",
+    dept: "Management & Leadership",
+    position: "Assistant Professor — Strategic Management",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$170,000 – $200,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    link: "https://omt.aom.org/discussion/tenure-track-position-assistant-professor-in-strategic-management-texas-christian-university-3",
+    notes: "AACSB top-100 private"
+  },
+  {
+    school: "Yale School of Management",
+    dept: "Strategy / Management",
+    position: "Assistant Professor (Strategy)",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$210,000 – $260,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Jul 1, 2026",
+    link: "https://som.yale.edu/faculty-research/faculty-openings",
+    notes: "3-yr initial appointment; elite R1"
+  },
+  {
+    school: "Harvard Business School",
+    dept: "Strategy / Entrepreneurial Mgmt",
+    position: "Assistant Professor (Strategy / Entrepreneurial Management)",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy, Entrepreneurship",
+    salary: "$220,000 – $275,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Jul 2026",
+    link: "https://www.hbs.edu/faculty/Pages/positions.aspx",
+    notes: "Elite R1; case-based teaching"
+  },
+  {
+    school: "Iona University — Hynes Institute",
+    dept: "Entrepreneurship & Innovation",
+    position: "Assistant Professor of Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Entrepreneurship",
+    salary: "$120,000 – $145,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    link: "https://www.usasbe.org/news/tenure-track-entrepreneurship-assistant-professor-position---fall-2026",
+    notes: "Teaching-leaning; full packet required"
+  },
+  {
+    school: "Bentley University",
+    dept: "Management",
+    position: "Assistant Professor of Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Entrepreneurship",
+    salary: "$160,000 – $185,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    link: "https://careers.insidehighered.com/jobs/business-and-management/tenured-and-tenure-track/",
+    notes: "Business-only AACSB"
+  },
+  {
+    school: "University of Tennessee Knoxville — Haslam",
+    dept: "Business Analytics & Statistics",
+    position: "Assistant Professor — Business Analytics (Applied AI/ML)",
+    type: "Tenure Track",
+    country: "USA",
+    field: "AI",
+    salary: "$170,000 – $200,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179159120",
+    notes: "Cross-listed; AI/ML in business apps"
+  },
+  {
+    school: "Ohio State — Fisher College of Business",
+    dept: "Management & Human Resources",
+    position: "Open-Rank Professor — Artificial Intelligence",
+    type: "Open Rank",
+    country: "USA",
+    field: "AI, Strategy",
+    salary: "$180,000 – $300,000 (est., rank dependent)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    link: "https://fisher.osu.edu/faculty-recruitment",
+    notes: "Open rank; AI focus"
+  },
+  {
+    school: "Utah Valley University",
+    dept: "Technology Management",
+    position: "Assistant Professor — Applied AI",
+    type: "Tenure Track",
+    country: "USA",
+    field: "AI",
+    salary: "$95,000 – $115,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    link: "https://www.uvu.edu/hr/careers/",
+    notes: "Teaching-intensive regional"
+  },
+  {
+    school: "University of New Brunswick — Saint John",
+    dept: "Faculty of Business",
+    position: "Assistant/Associate Professor — Strategy",
+    type: "Tenure Track",
+    country: "Canada",
+    field: "Strategy, Entrepreneurship",
+    salary: "CAD $115,000 – $145,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Apr 27, 2026 (review begins, open after)",
+    start: "Jul 1, 2026",
+    link: "https://www.academicwork.ca/jobs/tenure-track-assistant-or-associate-professor-in-strategy-university-of-new-brunswick-saint-john",
+    notes: "PhD with focus on Business/Corporate Strategy; AACSB preferred"
+  },
+  {
+    school: "University of Toronto — Rotman",
+    dept: "Strategic Management",
+    position: "Assistant Professor — Strategy",
+    type: "Tenure Track",
+    country: "Canada",
+    field: "Strategy",
+    salary: "CAD $160,000 – $200,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "Jul 2026",
+    link: "https://jobs.utoronto.ca/go/Faculty-Opportunities/2607417/",
+    notes: "Top-tier R1 Canada"
+  },
+  {
+    school: "University of Sharjah",
+    dept: "College of Business Administration — Management",
+    position: "Assistant/Associate Professor — Management",
+    type: "Tenure Track",
+    country: "UAE",
+    field: "Strategy, Entrepreneurship",
+    salary: "AED 35,000 – 50,000/month + housing (est., ≈ USD $115-165k)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "Fall 2026",
+    link: "https://academicpositions.com/employer/university-sharjah",
+    notes: "Tax-free; housing allowance; relocation"
+  },
+  {
+    school: "NYU Abu Dhabi",
+    dept: "Social Science / Business",
+    position: "Assistant Professor — Management & Organizations",
+    type: "Tenure Track",
+    country: "UAE",
+    field: "Strategy",
+    salary: "USD $180,000 – $230,000 + housing (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Sep 2026",
+    link: "https://nyuad.nyu.edu/en/about/careers/faculty.html",
+    notes: "Tax-free; NYU global network"
+  },
+  {
+    school: "Khalifa University",
+    dept: "Industrial & Systems Engineering / Management",
+    position: "Assistant/Associate Professor — Strategy & Innovation",
+    type: "Tenure Track",
+    country: "UAE",
+    field: "Strategy, AI",
+    salary: "USD $130,000 – $170,000 + housing (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "Fall 2026",
+    link: "https://www.ku.ac.ae/careers",
+    notes: "Tax-free; STEM-heavy"
+  },
+  {
+    school: "University of Melbourne — Melbourne Business School",
+    dept: "Management & Marketing",
+    position: "Lecturer / Senior Lecturer — Strategy",
+    type: "Tenure Track",
+    country: "Australia",
+    field: "Strategy",
+    salary: "AUD $120,000 – $165,000 (est.; Level B/C)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    link: "https://academicpositions.com/employer/the-university-of-melbourne",
+    notes: "Lecturer (AU) ≈ Assistant Prof (US); continuing/tenure-track equivalent"
+  },
+  {
+    school: "University of Sydney Business School",
+    dept: "Strategy, Innovation & Entrepreneurship",
+    position: "Lecturer / Senior Lecturer — Strategy & Innovation",
+    type: "Tenure Track",
+    country: "Australia",
+    field: "Strategy, Entrepreneurship",
+    salary: "AUD $125,000 – $165,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    link: "https://www.sydney.edu.au/about-us/careers-at-sydney/academic-careers.html",
+    notes: "Group of Eight; Level B/C continuing"
+  },
+  {
+    school: "UNSW Business School",
+    dept: "Strategy & Entrepreneurship",
+    position: "Lecturer / Senior Lecturer — Strategy",
+    type: "Tenure Track",
+    country: "Australia",
+    field: "Strategy",
+    salary: "AUD $120,000 – $160,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    link: "https://external-careers.jobs.unsw.edu.au/cw/en/listing/",
+    notes: "Top Australian business school"
+  },
+  {
+    school: "University of Auckland Business School",
+    dept: "Management & International Business",
+    position: "Lecturer / Senior Lecturer — Strategy",
+    type: "Tenure Track",
+    country: "New Zealand",
+    field: "Strategy, Entrepreneurship",
+    salary: "NZD $105,000 – $145,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    link: "https://www.auckland.ac.nz/en/about-us/about-the-university/careers-at-auckland.html",
+    notes: "Top NZ business school; triple-crown"
+  },
+  {
+    school: "Victoria University of Wellington",
+    dept: "School of Management",
+    position: "Lecturer — Strategy / Entrepreneurship",
+    type: "Tenure Track",
+    country: "New Zealand",
+    field: "Strategy, Entrepreneurship",
+    salary: "NZD $100,000 – $130,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    link: "https://www.wgtn.ac.nz/about/careers",
+    notes: "Capital city; AACSB"
+  }
+];
+
+// ===== Stats =====
+function renderStats() {
+  const el = document.getElementById('stats');
+  const total = JOBS.length;
+  const tt = JOBS.filter(j => j.type === 'Tenure Track').length;
+  const ai = JOBS.filter(j => j.field.includes('AI')).length;
+  const strat = JOBS.filter(j => j.field.includes('Strategy')).length;
+  const ent = JOBS.filter(j => j.field.includes('Entrepreneurship')).length;
+  const countries = new Set(JOBS.map(j => j.country)).size;
+  el.innerHTML = [
+    {v: total, l: 'Open positions'},
+    {v: tt, l: 'Tenure track'},
+    {v: strat, l: 'Strategy'},
+    {v: ai, l: 'AI / Analytics'},
+    {v: ent, l: 'Entrepreneurship'},
+    {v: countries, l: 'Countries'}
+  ].map(s => `<div class="stat"><div class="v">${s.v}</div><div class="l">${s.l}</div></div>`).join('');
+}
+
+// ===== Filters =====
+const activeFilters = { country: 'all', field: 'all', type: 'all' };
+let searchText = '';
+let grid;
+
+function fieldTag(f) {
+  const cls = f === 'Strategy' ? 'tag-strategy' : f === 'AI' ? 'tag-ai' : f === 'Entrepreneurship' ? 'tag-entrep' : 'tag-mgmt';
+  return `<span class="tag ${cls}">${f}</span>`;
+}
+function typeTag(t) {
+  const cls = t === 'Tenure Track' ? 'tag-tt' : t === 'Non-Tenure Track' ? 'tag-ntt' : t === 'Lecturer' ? 'tag-lect' : t === 'Open Rank' ? 'tag-open' : 'tag-vap';
+  return `<span class="tag ${cls}">${t}</span>`;
+}
+function deadlineFmt(d) {
+  if (!d) return '';
+  if (/\d{4}/.test(d)) {
+    // crude urgency: if contains a parseable date within 14 days
+    const m = d.match(/([A-Za-z]+ \d{1,2},? \d{4})/);
+    if (m) {
+      const dt = new Date(m[1]);
+      const days = (dt - new Date()) / 86400000;
+      if (days >= 0 && days <= 14) return `<span class="deadline-urgent">${d} ⚠</span>`;
+      if (days >= 0 && days <= 45) return `<span class="deadline-soon">${d}</span>`;
+    }
+  }
+  return d;
+}
+function salaryFmt(s, confirmed) {
+  return confirmed
+    ? `<span class="salary-confirmed">${s}</span>`
+    : `<span class="salary-est">${s}</span>`;
+}
+
+function filteredJobs() {
+  return JOBS.filter(j => {
+    if (activeFilters.country !== 'all' && j.country !== activeFilters.country) return false;
+    if (activeFilters.field !== 'all' && !j.field.includes(activeFilters.field)) return false;
+    if (activeFilters.type !== 'all' && j.type !== activeFilters.type) return false;
+    if (searchText) {
+      const t = searchText.toLowerCase();
+      const hay = (j.school + ' ' + j.dept + ' ' + j.position + ' ' + j.field + ' ' + j.notes).toLowerCase();
+      if (!hay.includes(t)) return false;
+    }
+    return true;
+  });
+}
+
+function rowsForGrid() {
+  return filteredJobs().map(j => [
+    `<div class="school">${j.school}</div><div class="dept">${j.dept}</div>`,
+    j.position,
+    typeTag(j.type),
+    j.country,
+    j.field.split(',').map(f => fieldTag(f.trim())).join(' '),
+    salaryFmt(j.salary, j.salaryConfirmed),
+    deadlineFmt(j.deadline),
+    j.start,
+    `<a class="col-link" href="${j.link}" target="_blank" rel="noopener">View →</a>`,
+    `<div class="notes-cell">${j.notes || ''}</div>`
+  ]);
+}
+
+function renderTable() {
+  const target = document.getElementById('table');
+  if (grid) { grid.destroy(); target.innerHTML = ''; }
+  grid = new gridjs.Grid({
+    columns: [
+      { name: 'School / Dept', formatter: c => gridjs.html(c) },
+      { name: 'Position' },
+      { name: 'Type', formatter: c => gridjs.html(c) },
+      { name: 'Country' },
+      { name: 'Field', formatter: c => gridjs.html(c) },
+      { name: 'Salary', formatter: c => gridjs.html(c) },
+      { name: 'Deadline', formatter: c => gridjs.html(c) },
+      { name: 'Start' },
+      { name: 'Apply', formatter: c => gridjs.html(c) },
+      { name: 'Notes', formatter: c => gridjs.html(c) }
+    ],
+    data: rowsForGrid(),
+    sort: true,
+    resizable: true,
+    style: { table: { 'white-space': 'normal' } }
+  }).render(target);
+}
+
+// ===== Packet checklist =====
+const PACKET_FIELDS = ['CV', 'Cover Ltr', 'Research', 'Teaching', 'EDI', 'JMP', 'Refs (3)'];
+const packetState = {}; // key by job index
+function renderPacket() {
+  const el = document.getElementById('packet');
+  const head = `<div class="packet-row header"><div>School / Position</div>${PACKET_FIELDS.map(f => `<div class="cell-center">${f}</div>`).join('')}<div>Status</div></div>`;
+  const rows = filteredJobs().map((j, i) => {
+    const key = j.school + '|' + j.position;
+    if (!packetState[key]) packetState[key] = { CV: true, 'Cover Ltr': false, Research: false, Teaching: false, EDI: false, JMP: false, 'Refs (3)': false };
+    const cells = PACKET_FIELDS.map(f => {
+      const yes = packetState[key][f];
+      return `<div class="cell-center"><span class="check ${yes ? 'yes' : 'no'}" data-key="${key}" data-field="${f}" style="cursor:pointer">${yes ? '✓' : '○'}</span></div>`;
+    }).join('');
+    const done = PACKET_FIELDS.filter(f => packetState[key][f]).length;
+    const pct = Math.round(100 * done / PACKET_FIELDS.length);
+    return `<div class="packet-row"><div><strong>${j.school}</strong><div class="dept">${j.position}</div></div>${cells}<div class="cell-center" style="font-size:11px;color:#475569">${done}/${PACKET_FIELDS.length} (${pct}%)</div></div>`;
+  }).join('');
+  el.innerHTML = head + rows;
+  el.querySelectorAll('.check').forEach(c => {
+    c.addEventListener('click', () => {
+      const k = c.dataset.key, f = c.dataset.field;
+      packetState[k][f] = !packetState[k][f];
+      try { localStorage.setItem('packet', JSON.stringify(packetState)); } catch(e){}
+      renderPacket();
+    });
+  });
+}
+
+// Restore packet state
+try {
+  const stored = localStorage.getItem('packet');
+  if (stored) Object.assign(packetState, JSON.parse(stored));
+} catch(e){}
+
+// ===== Wire up filters =====
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const f = chip.dataset.filter;
+    activeFilters[f] = chip.dataset.value;
+    document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderTable();
+    renderPacket();
+    renderStats();
+  });
+});
+document.getElementById('search').addEventListener('input', e => {
+  searchText = e.target.value;
+  renderTable();
+  renderPacket();
+});
+
+renderStats();
+renderTable();
+renderPacket();
+</script>
+</body>
+</html>
