@@ -209,7 +209,10 @@ function rowsForGrid() {
 
 function renderTable() {
   const target = document.getElementById('table');
-  if (grid) { grid.destroy(); target.innerHTML = ''; }
+  if (grid) {
+    grid.updateConfig({ data: rowsForGrid() }).forceRender();
+    return;
+  }
   grid = new gridjs.Grid({
     columns: [
       { name: 'School / Dept', formatter: function (c) { return gridjs.html(c); } },
