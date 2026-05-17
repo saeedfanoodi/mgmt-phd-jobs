@@ -1,0 +1,84 @@
+{
+  "last_run": "2026-05-17T07:33:33.272630Z",
+  "total_jobs": 26,
+  "new_this_run": 5,
+  "sources": {
+    "HigherEdJobs - Management": {
+      "ok": true,
+      "matched": 0,
+      "new": 0,
+      "url": "https://www.higheredjobs.com/rss/articleFeed.cfm?CatNum=46",
+      "error": null
+    },
+    "HigherEdJobs - Business": {
+      "ok": true,
+      "matched": 0,
+      "new": 0,
+      "url": "https://www.higheredjobs.com/rss/articleFeed.cfm?CatNum=44",
+      "error": null
+    },
+    "Inside Higher Ed - Business & Management": {
+      "ok": true,
+      "matched": 0,
+      "new": 0,
+      "url": "https://careers.insidehighered.com/jobs/business-and-management/feed",
+      "error": null
+    },
+    "Chronicle - Business & Management": {
+      "ok": true,
+      "matched": 0,
+      "new": 0,
+      "url": "https://jobs.chronicle.com/jobs/business-and-management/feed/",
+      "error": null
+    },
+    "Times Higher Ed unijobs - Business": {
+      "ok": true,
+      "matched": 0,
+      "new": 0,
+      "url": "https://www.timeshighereducation.com/unijobs/rss/?keywords=management",
+      "error": null
+    },
+    "ASAC Canada - Placements": {
+      "ok": true,
+      "matched": 2,
+      "new": 2,
+      "url": "https://asac.ca/job-postings/placements/",
+      "error": null
+    },
+    "University Affairs Canada - Management": {
+      "ok": true,
+      "matched": 0,
+      "new": 0,
+      "url": "https://www.universityaffairs.ca/search-job/?_search_job_title=management",
+      "error": null
+    },
+    "AKADEUS - Announcements": {
+      "ok": true,
+      "matched": 0,
+      "new": 0,
+      "url": "https://www.akadeus.com/announcements",
+      "error": null
+    },
+    "AOM - Placement Board": {
+      "ok": false,
+      "matched": 0,
+      "new": 0,
+      "url": "https://placement.aom.org/jobs",
+      "error": "403 Client Error: Forbidden for url: https://placement.aom.org/jobs"
+    },
+    "SIOP - Career Center": {
+      "ok": false,
+      "matched": 0,
+      "new": 0,
+      "url": "https://www.siop.org/Career-Center/Job-Search",
+      "error": "403 Client Error: Forbidden for url: https://jobs.siop.org/"
+    },
+    "Google Sheet - Faculty Jobs (community)": {
+      "ok": true,
+      "matched": 3,
+      "new": 3,
+      "url": "https://docs.google.com/spreadsheets/d/1_GJuEMKVgGc6qq3IflXVtq4miDR-p4sQYHQYhHwNveQ/edit?gid=1242106999",
+      "error": null
+    }
+  }
+}
