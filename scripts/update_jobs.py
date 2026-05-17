@@ -22,10 +22,12 @@ JOBS_FILE = HERE / "jobs.json"
 SOURCES_FILE = HERE / "sources_status.json"
 
 FIELD_KEYWORDS = {
-    "Strategy": [r"\bstrateg", r"strategic management", r"corporate strategy"],
+    "Strategy": [r"\bstrateg", r"strategic management", r"corporate strategy",
+                 r"\bstrat[/\s]", r"[/\s]strat[/\s]"],
     "AI": [r"\bartificial intelligence\b", r"\bai/ml\b", r"machine learning",
-           r"business analytics", r"data scien"],
-    "Entrepreneurship": [r"\bentrepreneur", r"innovation management"],
+           r"business analytics", r"data scien", r"\bai\b"],
+    "Entrepreneurship": [r"\bentrepreneur", r"innovation management",
+                         r"\bent[/\s]", r"[/\s]ent[/\s]", r"[/\s]ent\b"],
 }
 TT_KEYWORDS = [
     r"tenure[- ]track", r"assistant professor", r"associate professor",
@@ -202,60 +204,76 @@ def scrape_gsheet_csv(sheet_id, gid, source):
         return [], str(ex)
     reader = csv.DictReader(io.StringIO(r.text))
     out = []
-    SCHOOL_COLS = ["school", "institution", "university", "employer", "org"]
-    POS_COLS = ["position", "title", "job title", "role", "rank"]
-    DEPT_COLS = ["department", "dept", "area"]
-    LINK_COLS = ["link", "url", "apply", "website", "posting"]
-    DEADLINE_COLS = ["deadline", "due date", "close date", "closing date",
-                     "application deadline"]
-    START_COLS = ["start date", "start", "begin date"]
-    COUNTRY_COLS = ["country", "location", "region"]
-    FIELD_COLS = ["field", "area", "discipline", "specialty",
-                  "research area", "specialization"]
-    TYPE_COLS = ["type", "rank", "position type", "appointment"]
-    SALARY_COLS = ["salary", "compensation", "pay"]
+    TARGET_COUNTRIES = {"USA", "Canada", "Australia", "New Zealand", "UAE"}
+    TYPE_MAP = {"tt": "Tenure Track", "ntt": "Non-Tenure Track",
+                "postdoc": "Non-Tenure Track", "post-doc": "Non-Tenure Track",
+                "open rank": "Open Rank", "lecturer": "Lecturer",
+                "senior lecturer": "Tenure Track"}
 
-    def pick(row, cols):
+    def get(row, *names):
         keys_lower = {k.lower().strip(): k for k in row.keys() if k}
-        for c in cols:
-            if c in keys_lower:
-                v = (row[keys_lower[c]] or "").strip()
+        for n in names:
+            if n.lower() in keys_lower:
+                v = (row[keys_lower[n.lower()]] or "").strip()
                 if v:
                     return v
         return ""
 
     for row in reader:
         try:
-            school = pick(row, SCHOOL_COLS)
-            position = pick(row, POS_COLS)
-            if not school and not position:
+            university = get(row, "University", "School", "Institution")
+            if not university:
                 continue
-            link = pick(row, LINK_COLS) or ""
+            # skip warning/header rows
+            if "DO NOT" in university.upper() or "SORT" in university.upper():
+                continue
+            # skip expired
+            expired = get(row, "Expired?", "Expired")
+            if expired and expired.lower() not in ("no", "n", "false", "0"):
+                continue
+            location = get(row, "Location")
+            region = get(row, "Region")
             blob = " ".join(str(v) for v in row.values() if v)
-            if not any(re.search(p, blob, re.I) for p in TT_KEYWORDS):
+            country = detect_country(location + " " + region + " " + blob)
+            if country not in TARGET_COUNTRIES:
                 continue
-            field = pick(row, FIELD_COLS) or detect_field(blob)
+            area = get(row, "Area", "Field", "Discipline")
+            field = detect_field(area + " " + blob)
             if not field:
                 continue
-            country = pick(row, COUNTRY_COLS) or detect_country(blob) or "USA"
-            pos_type = pick(row, TYPE_COLS) or detect_type(blob) or "Tenure Track"
-            salary = pick(row, SALARY_COLS)
+            rank = get(row, "Rank", "Position", "Title")
+            tt_raw = get(row, "TT-NTT-PostDoc", "TT/NTT", "Type", "Appointment")
+            pos_type = TYPE_MAP.get(tt_raw.lower().strip(),
+                                    detect_type(rank + " " + tt_raw) or "Tenure Track")
+            position = (rank + " Professor of " + area).strip() if rank and area else (rank or area or "Faculty position")
+            salary = get(row, "Salary", "Compensation")
             salary_confirmed = bool(salary)
             if not salary:
-                salary = estimate_salary(country, school or position)
+                salary = estimate_salary(country, university)
+            link = get(row, "Link", "URL", "Apply")
+            notes_parts = []
+            tl = get(row, "Teaching load", "Teaching Load")
+            if tl:
+                notes_parts.append("Teaching: " + tl)
+            nc = get(row, "NOTES/COMMENTS", "Notes", "Comments")
+            if nc:
+                notes_parts.append(nc[:120])
+            h1b = get(row, "H1B Allowed?", "H1B")
+            if h1b:
+                notes_parts.append("H1B: " + h1b)
             out.append({
-                "school": (school or position)[:160],
-                "dept": pick(row, DEPT_COLS) or "-",
-                "position": (position or school)[:160],
+                "school": university[:160],
+                "dept": area or "-",
+                "position": position[:160],
                 "type": pos_type,
                 "country": country,
                 "field": field,
                 "salary": salary,
                 "salaryConfirmed": salary_confirmed,
-                "deadline": pick(row, DEADLINE_COLS) or "See posting",
-                "start": pick(row, START_COLS) or "TBD",
+                "deadline": get(row, "Due Date", "Deadline") or "See posting",
+                "start": get(row, "Start Date", "Start") or "TBD",
                 "link": link if link.startswith("http") else "",
-                "notes": "From " + source,
+                "notes": " | ".join(notes_parts) if notes_parts else ("From " + source),
             })
         except Exception:
             continue
@@ -334,6 +352,7 @@ def main():
                 "url": src.get("url", ""), "error": str(e),
             }
     merged = existing + new_jobs
+    merged = existing + new_jobs
     JOBS_FILE.write_text(json.dumps(merged, indent=2))
     SOURCES_FILE.write_text(json.dumps({
         "last_run": datetime.datetime.utcnow().isoformat() + "Z",
@@ -341,7 +360,7 @@ def main():
         "new_this_run": len(new_jobs),
         "sources": sources_status,
     }, indent=2))
-    print("Added " + str(len(new_jobs)) + " new jobs. Total: " + str(len(merged)) + ".")
+    print("Added", len(new_jobs), "new jobs. Total:", len(merged))
     return 0
 
 
