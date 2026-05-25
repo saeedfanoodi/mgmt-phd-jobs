@@ -432,5 +432,19 @@
     "start": "Unclear",
     "link": "",
     "notes": "From Google Sheet - Faculty Jobs (community)"
+  },
+  {
+    "school": "Australian National University",
+    "dept": "Business Management",
+    "position": "Assistant (Teaching) Professor of Business Management",
+    "type": "Tenure Track",
+    "country": "Australia",
+    "field": "AI, Entrepreneurship",
+    "salary": "AUD $115,000 - $165,000 (est.)",
+    "salaryConfirmed": false,
+    "deadline": "5/26/2026",
+    "start": "TBD",
+    "link": "https://jobs.anu.edu.au/jobs/lecturer-in-business-management-canberra-act-act-australia",
+    "notes": "technology and innovation management, business analytics, operations management, or an adjacent field"
   }
 ]
