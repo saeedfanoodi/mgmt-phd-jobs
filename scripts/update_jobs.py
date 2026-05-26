@@ -63,6 +63,124 @@ STRONG_US = ["fisher", "olin", "owen", "darden", "georgetown", "carey",
              "krannert", "scheller", "tippie", "marshall"]
 R1_CA = ["rotman", "ivey", "smith school", "sauder", "schulich", "desautels"]
 
+# Phrases that indicate a job posting has been removed or expired
+DELETION_MARKERS = [
+    "view deleted positions",
+    "this position has been deleted",
+    "this job posting is no longer available",
+    "this posting has expired",
+    "position has been filled",
+    "this listing has expired",
+    "job listing not found",
+    "no longer accepting applications",
+    "posting has been removed",
+    "this job is no longer available",
+    "vacancy has been filled",
+    "position is no longer available",
+]
+
+DEADLINE_FORMATS = [
+    "%b %d, %Y", "%B %d, %Y", "%b %d %Y", "%B %d %Y",
+    "%m/%d/%Y", "%Y-%m-%d", "%d %b %Y", "%d %B %Y",
+]
+
+def parse_deadline(deadline_str):
+    """Try to parse a deadline string into a date. Returns None if unparseable."""
+    if not deadline_str:
+        return None
+    s = deadline_str.strip().rstrip(".")
+    # Remove ordinal suffixes: 1st → 1, 2nd → 2, etc.
+    s = re.sub(r"(\d+)(st|nd|rd|th)", r"\1", s)
+    for fmt in DEADLINE_FORMATS:
+        try:
+            return datetime.datetime.strptime(s, fmt).date()
+        except ValueError:
+            continue
+    return None
+
+def deadline_clearly_passed(job):
+    """Return True if the job has a specific deadline that passed >14 days ago."""
+    deadline = job.get("deadline", "")
+    if not deadline or deadline.lower() in (
+        "open until filled", "rolling", "see posting", "tbd", "", "varies"
+    ):
+        return False
+    dl = parse_deadline(deadline)
+    if dl is None:
+        return False
+    cutoff = datetime.date.today() - datetime.timedelta(days=14)
+    return dl < cutoff
+
+def job_is_stale(job):
+    """Return True if the job's posted date is >120 days old (for URL validation)."""
+    posted = job.get("posted", "")
+    if not posted:
+        return False
+    try:
+        posted_date = datetime.date.fromisoformat(posted)
+        return (datetime.date.today() - posted_date).days > 120
+    except ValueError:
+        return False
+
+def url_is_dead(link, timeout=10):
+    """Return True if the URL returns a clear deletion/expiry signal."""
+    if not link or not link.startswith("http"):
+        return False
+    try:
+        r = requests.get(
+            link, timeout=timeout,
+            headers={"User-Agent": "Mozilla/5.0 (saeed-jobs-bot/1.0)"},
+            allow_redirects=True,
+        )
+        if r.status_code == 410:        # HTTP Gone
+            return True
+        if r.status_code == 404:
+            return True
+        text_lower = r.text.lower()
+        if any(marker in text_lower for marker in DELETION_MARKERS):
+            return True
+    except Exception:
+        pass  # network error → assume still live
+    return False
+
+def validate_jobs(existing, max_url_checks=20):
+    """
+    Filter out expired jobs from the existing list.
+
+    Rules (applied in order, no HTTP call needed for the first two):
+      1. Deadline passed >14 days ago → remove.
+      2. Job is stale (posted >120 days ago) → check URL; remove if dead.
+      3. Otherwise keep.
+
+    max_url_checks caps the number of HTTP requests per run so the
+    GitHub Action stays fast.
+    """
+    kept = []
+    removed = []
+    checks_done = 0
+
+    for job in existing:
+        # Rule 1: deadline clearly past
+        if deadline_clearly_passed(job):
+            removed.append((job.get("school", "?"), "deadline passed"))
+            continue
+
+        # Rule 2: stale posting — validate URL (up to cap)
+        if job_is_stale(job) and checks_done < max_url_checks:
+            checks_done += 1
+            if url_is_dead(job.get("link", "")):
+                removed.append((job.get("school", "?"), "URL dead/deleted"))
+                continue
+
+        kept.append(job)
+
+    if removed:
+        print(f"Removed {len(removed)} expired jobs:")
+        for school, reason in removed:
+            print(f"  - {school}: {reason}")
+
+    return kept
+
 
 def estimate_salary(country, school):
     s = (school or "").lower()
@@ -78,14 +196,12 @@ def estimate_salary(country, school):
         return SALARY["Canada_other"]
     return SALARY.get(country, "Range not estimated")
 
-
 def detect_country(text):
     t = (text or "").lower()
     for country, pats in COUNTRY_KEYWORDS.items():
         if any(re.search(p, t) for p in pats):
             return country
     return None
-
 
 def detect_field(text):
     t = (text or "").lower()
@@ -94,7 +210,6 @@ def detect_field(text):
         if any(re.search(p, t) for p in pats):
             found.append(field)
     return ", ".join(found) if found else None
-
 
 def detect_type(text):
     t = (text or "").lower()
@@ -112,7 +227,6 @@ def detect_type(text):
         return "Tenure Track"
     return None
 
-
 def extract_school(title):
     if " at " in title:
         return title.split(" at ", 1)[1][:80].strip()
@@ -121,7 +235,6 @@ def extract_school(title):
             parts = [p.strip() for p in title.split(sep)]
             return max(parts, key=len)[:80]
     return (title or "")[:80].strip()
-
 
 def make_job(title, link, summary, source):
     body = (title or "") + " " + (summary or "")
@@ -149,9 +262,9 @@ def make_job(title, link, summary, source):
         "deadline": deadline,
         "start": "TBD",
         "link": link or "",
+        "posted": datetime.date.today().isoformat(),
         "notes": "Auto-detected from " + source,
     }
-
 
 def scrape_rss(url, source):
     feed = feedparser.parse(url)
@@ -162,7 +275,6 @@ def scrape_rss(url, source):
         if j:
             out.append(j)
     return out, None
-
 
 def scrape_html(url, source, selectors):
     try:
@@ -190,7 +302,6 @@ def scrape_html(url, source, selectors):
         except Exception:
             continue
     return out, None
-
 
 def scrape_gsheet_csv(sheet_id, gid, source):
     """Fetch a Google Sheets tab as CSV and parse rows."""
@@ -224,10 +335,8 @@ def scrape_gsheet_csv(sheet_id, gid, source):
             university = get(row, "University", "School", "Institution")
             if not university:
                 continue
-            # skip warning/header rows
             if "DO NOT" in university.upper() or "SORT" in university.upper():
                 continue
-            # skip expired
             expired = get(row, "Expired?", "Expired")
             if expired and expired.lower() not in ("no", "n", "false", "0"):
                 continue
@@ -273,12 +382,12 @@ def scrape_gsheet_csv(sheet_id, gid, source):
                 "deadline": get(row, "Due Date", "Deadline") or "See posting",
                 "start": get(row, "Start Date", "Start") or "TBD",
                 "link": link if link.startswith("http") else "",
+                "posted": datetime.date.today().isoformat(),
                 "notes": " | ".join(notes_parts) if notes_parts else ("From " + source),
             })
         except Exception:
             continue
     return out, None
-
 
 SOURCES = [
     {"name": "HigherEdJobs - Management", "type": "rss",
@@ -318,9 +427,14 @@ SOURCES = [
      "url": "https://docs.google.com/spreadsheets/d/1_GJuEMKVgGc6qq3IflXVtq4miDR-p4sQYHQYhHwNveQ/edit?gid=1242106999"},
 ]
 
-
 def main():
     existing = json.loads(JOBS_FILE.read_text()) if JOBS_FILE.exists() else []
+
+    # --- VALIDATE: remove expired / dead jobs before adding new ones ---
+    print(f"Validating {len(existing)} existing jobs...")
+    existing = validate_jobs(existing, max_url_checks=20)
+    print(f"{len(existing)} jobs remain after validation.")
+
     seen = {(j["school"].lower().strip(), j["position"].lower().strip())
             for j in existing}
     sources_status = {}
@@ -352,7 +466,6 @@ def main():
                 "url": src.get("url", ""), "error": str(e),
             }
     merged = existing + new_jobs
-    merged = existing + new_jobs
     JOBS_FILE.write_text(json.dumps(merged, indent=2))
     SOURCES_FILE.write_text(json.dumps({
         "last_run": datetime.datetime.utcnow().isoformat() + "Z",
@@ -362,7 +475,6 @@ def main():
     }, indent=2))
     print("Added", len(new_jobs), "new jobs. Total:", len(merged))
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
