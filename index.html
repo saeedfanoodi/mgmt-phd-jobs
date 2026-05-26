@@ -4,27 +4,73 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Management PhD Faculty Jobs Tracker</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/theme/mermaid.min.css">
-<script src="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/gridjs.umd.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/theme/mermaid.min.css" integrity="sha384-rcOiOEAdoiB2dwhSx0vR8/IjnZmpKEbY4tnQbN5ZB6Mtj//+VL1k9Pcr9KQqQpAj" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/gridjs@5.0.2/dist/gridjs.umd.js" integrity="sha384-/XXDzxe4FsGiAe50i/u9pY/Vy/uX654MHB1xoc1BJNnH1WXHhqHga9g3q5tF4gj7" crossorigin="anonymous"></script>
 <style>
 :root { color-scheme: light; }
 * { box-sizing: border-box; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1a1a1a; background: #ffffff; font-size: 14px; line-height: 1.5; }
-.wrap { padding: 16px 20px 60px; max-width: 1600px; margin: 0 auto; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.wrap { padding: 16px 20px 60px; max-width: 100%; margin: 0 auto; }
 h1 { font-size: 22px; margin: 0 0 4px; font-weight: 600; }
 .subtitle { color: #555; font-size: 13px; margin-bottom: 18px; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 16px; }
-.stat { background: #f6f7f9; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 12px; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stat {
+  background: #f6f7f9;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
 .stat .v { font-size: 22px; font-weight: 600; color: #111; }
-.stat .l { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
-.filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; align-items: center; }
+.stat .l { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px;}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+  align-items: center;
+}
 .filter-group { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
 .filter-group .label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
-.chip { border: 1px solid #d1d5db; background: #fff; border-radius: 999px; padding: 4px 10px; font-size: 12px; cursor: pointer; user-select: none; color: #374151; }
+.chip {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  color: #374151;
+}
 .chip:hover { background: #f3f4f6; }
 .chip.active { background: #111827; color: #fff; border-color: #111827; }
-.search-input { flex: 1; min-width: 200px; border: 1px solid #d1d5db; border-radius: 6px; padding: 6px 10px; font-size: 13px; }
-.tag { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.tag {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
 .tag-tt { background: #dcfce7; color: #166534; }
 .tag-ntt { background: #fef3c7; color: #92400e; }
 .tag-lect { background: #ddd6fe; color: #5b21b6; }
@@ -43,34 +89,70 @@ a:hover { text-decoration: underline; }
 .section { margin-top: 28px; }
 .section-title { font-size: 15px; font-weight: 600; margin: 0 0 8px; color: #111827; }
 .section-sub { font-size: 12px; color: #6b7280; margin-bottom: 10px; }
-.packet { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.packet-row { display: grid; grid-template-columns: 2fr repeat(7, 1fr) 1fr; gap: 6px; font-size: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding: 6px 4px; }
-.packet-row.header { font-weight: 600; color: #475569; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid #e2e8f0; background: #f8fafc; }
+.packet {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.packet-row {
+  display: grid;
+  grid-template-columns: 2fr repeat(6, 1fr) 1fr;
+  gap: 6px;
+  font-size: 12px;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 6px 4px;
+}
+.packet-row.header {
+  font-weight: 600;
+  color: #475569;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid #e2e8f0;
+  background: #f8fafc;
+}
 .packet-row .cell-center { text-align: center; }
 .check { font-size: 16px; }
 .check.yes { color: #16a34a; }
 .check.no { color: #cbd5e1; }
-.note-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #78350f; margin-bottom: 14px; }
+.notes-cell { color: #475569; font-size: 11px; }
+.note-box {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #78350f;
+  margin-bottom: 14px;
+}
 .legend { font-size: 11px; color: #6b7280; margin-top: 6px; }
-.source-card { border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 10px; background: #fff; font-size: 12px; }
-.source-card .name { font-weight: 600; color: #111; }
-.source-card .meta { color: #6b7280; margin-top: 2px; }
+
+/* ── Grid.js overrides: force wrapping, kill nowrap ── */
+.gridjs-wrapper { border-radius: 8px !important; box-shadow: 0 0 0 1px #e5e7eb !important; overflow-x: auto !important; }
 .gridjs-table { font-size: 12.5px !important; }
-.gridjs-th { background: #f8fafc !important; font-weight: 600 !important; font-size: 11px !important; text-transform: uppercase; letter-spacing: 0.03em; }
-.gridjs-td { vertical-align: top !important; padding: 8px 10px !important; }
-.gridjs-wrapper { border-radius: 8px !important; box-shadow: 0 0 0 1px #e5e7eb !important; }
+.gridjs-th,
+.gridjs-th button,
+.gridjs-th span { white-space: normal !important; word-break: break-word !important; }
+.gridjs-th { background: #f8fafc !important; font-weight: 600 !important; font-size: 11px !important; text-transform: uppercase; letter-spacing: 0.03em; vertical-align: top !important; padding: 8px 10px !important; }
+.gridjs-td { vertical-align: top !important; padding: 8px 10px !important; white-space: normal !important; word-break: break-word !important; overflow-wrap: anywhere !important; }
+
 .school { font-weight: 600; color: #111827; }
 .dept { color: #6b7280; font-size: 11px; }
 .col-link { white-space: nowrap; }
+.new-badge { display: inline-block; background: #fbbf24; color: #78350f; font-size: 10px; font-weight: 700; border-radius: 3px; padding: 1px 5px; margin-left: 4px; vertical-align: middle; }
+.posted-new  { color: #15803d; font-weight: 600; font-size: 12px; }
+.posted-mid  { color: #374151; font-size: 12px; }
+.posted-old  { color: #9ca3af; font-size: 12px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Management PhD Faculty Jobs — Saeed's Tracker</h1>
-  <div class="subtitle">Tenure-track &amp; faculty positions in Management (Strategy / AI / Entrepreneurship) — USA, Canada, Australia, New Zealand, UAE. Modeled after mgmtphdjobs.com.</div>
+  <div class="subtitle">Tenure-track &amp; faculty positions in Management (Strategy / AI / Entrepreneurship) — USA, Canada, Australia, New Zealand, UAE. Last updated: May 25, 2026.</div>
 
   <div class="note-box">
-    <strong>Note on salaries:</strong> Confirmed figures come from the actual job posting; <em>italicized</em> figures are estimates based on AACSB 2024-25 business-school faculty benchmarks. Treat estimates as a planning range, not an offer.
+    <strong>Note on salaries:</strong> Confirmed figures come from the actual job posting; <em>italicized</em> figures are estimates based on AACSB 2024-25 benchmarks (US R1 elite $210-275k; US R1 strong $170-210k; US regional $110-150k; Canada CAD $115-205k; Australia AUD $115-170k Level B/C; NZ NZD $100-165k; UAE USD $115-180k tax-free + housing). Treat estimates as a planning range, not an offer.
   </div>
 
   <div class="stats" id="stats"></div>
@@ -100,213 +182,730 @@ a:hover { text-decoration: underline; }
       <span class="chip" data-filter="type" data-value="Lecturer">Lecturer</span>
       <span class="chip" data-filter="type" data-value="Open Rank">Open Rank</span>
     </div>
-    <input type="text" class="search-input" id="search" placeholder="Search school, area, keyword..." />
+    <input type="text" class="search-input" id="search" placeholder="Search school, area, keyword…" />
   </div>
 
   <div id="table"></div>
-  <div class="legend">Click a column header to sort. Salary <span class="salary-confirmed">in bold</span> = confirmed from posting; <span class="salary-est">italics</span> = estimated range from AACSB benchmarks.</div>
+  <div class="legend">
+    Click a column header to sort. Salary <span class="salary-confirmed">bold</span> = confirmed; <span class="salary-est">italics</span> = AACSB estimate.
+    Posted: <span class="posted-new">green = ≤14 days</span> · <span class="posted-mid">grey = 15–60 days</span> · <span class="posted-old">faded = &gt;60 days</span>.
+    <span class="new-badge">NEW</span> = added May 25, 2026.
+  </div>
 
   <div class="section">
     <h2 class="section-title">Application Packet Checklist</h2>
-    <div class="section-sub">Track which materials each application still needs.</div>
+    <div class="section-sub">Track materials per application. Standard packet: CV, Cover letter, Research statement, Teaching statement, EDI statement, Job market paper, References (3).</div>
     <div class="packet" id="packet"></div>
   </div>
 
   <div class="section">
-    <h2 class="section-title">Sources scanned</h2>
-    <div class="section-sub" id="sources-sub">Loading source status...</div>
-    <div id="sources-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px;"></div>
+    <h2 class="section-title">Digest Schedule</h2>
+    <div class="section-sub">A scheduled task runs daily, scans for new postings (Management / Strategy / AI / Entrepreneurship in USA, Canada, AU, NZ, UAE), and updates this tracker. Urgent deadlines (≤14 days) are flagged in red.</div>
   </div>
 </div>
 
 <script>
-let JOBS = [];
-const PACKET_FIELDS = ['CV', 'Cover Ltr', 'Research', 'Teaching', 'EDI', 'JMP', 'Refs (3)'];
-const packetState = {};
-try {
-  const stored = localStorage.getItem('packet');
-  if (stored) Object.assign(packetState, JSON.parse(stored));
-} catch (e) {}
+// ===== Seed dataset =====
+// posted: ISO date string (YYYY-MM-DD) — approximate if exact date unknown
+// salaryConfirmed: true if salary taken directly from posting
+// isNew: true if added in today's digest run
+const JOBS = [
+  {
+    school: "University of Hartford — Barney School of Business",
+    dept: "Management",
+    position: "Assistant Professor of Strategic Management",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$112,000",
+    salaryConfirmed: true,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2025-10-01",
+    link: "https://www.higheredjobs.com/details.cfm?JobCode=179268823",
+    notes: "3-3 load; UG + grad strategy"
+  },
+  {
+    school: "Colorado State University",
+    dept: "Management",
+    position: "Assistant Professor — Strategy / Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy, Entrepreneurship",
+    salary: "$140,000 – $165,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 16, 2026",
+    posted: "2025-09-15",
+    link: "https://jobs.colostate.edu/postings/164619",
+    notes: "PhD in Strategy or Entrep; ABD ok if defended by Aug 2026"
+  },
+  {
+    school: "Indiana University — Kelley School of Business",
+    dept: "Management & Entrepreneurship",
+    position: "Assistant/Associate Professor — Strategic Management",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$200,000 – $230,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling (priority Sep 26, 2025)",
+    start: "Fall 2026",
+    posted: "2025-08-20",
+    link: "https://indiana.peopleadmin.com/postings/30888",
+    notes: "R1 top-tier; multiple lines"
+  },
+  {
+    school: "Texas Christian University — Neeley School",
+    dept: "Management & Leadership",
+    position: "Assistant Professor — Strategic Management",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$170,000 – $200,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    posted: "2025-09-10",
+    link: "https://omt.aom.org/discussion/tenure-track-position-assistant-professor-in-strategic-management-texas-christian-university-3",
+    notes: "AACSB top-100 private"
+  },
+  {
+    school: "Yale School of Management",
+    dept: "Strategy / Management",
+    position: "Assistant Professor (Strategy)",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$210,000 – $260,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Jul 1, 2026",
+    posted: "2025-08-01",
+    link: "https://som.yale.edu/faculty-research/faculty-openings",
+    notes: "3-yr initial appointment; elite R1"
+  },
+  {
+    school: "Harvard Business School",
+    dept: "Strategy / Entrepreneurial Mgmt",
+    position: "Assistant Professor (Strategy / Entrepreneurial Management)",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy, Entrepreneurship",
+    salary: "$220,000 – $275,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Jul 2026",
+    posted: "2025-08-01",
+    link: "https://www.hbs.edu/faculty/Pages/positions.aspx",
+    notes: "Elite R1; case-based teaching"
+  },
+  {
+    school: "Iona University — Hynes Institute",
+    dept: "Entrepreneurship & Innovation",
+    position: "Assistant Professor of Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Entrepreneurship",
+    salary: "$120,000 – $145,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2025-11-01",
+    link: "https://www.usasbe.org/news/tenure-track-entrepreneurship-assistant-professor-position---fall-2026",
+    notes: "Teaching-leaning; full packet required"
+  },
+  {
+    school: "Bentley University",
+    dept: "Management",
+    position: "Assistant Professor of Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Entrepreneurship",
+    salary: "$160,000 – $185,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    posted: "2025-10-15",
+    link: "https://careers.insidehighered.com/jobs/business-and-management/tenured-and-tenure-track/",
+    notes: "Business-only AACSB"
+  },
+  {
+    school: "University of Tennessee Knoxville — Haslam",
+    dept: "Business Analytics & Statistics",
+    position: "Assistant Professor — Business Analytics (Applied AI/ML)",
+    type: "Tenure Track",
+    country: "USA",
+    field: "AI",
+    salary: "$170,000 – $200,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2026-01-15",
+    link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179159120",
+    notes: "Cross-listed; AI/ML in business apps"
+  },
+  {
+    school: "Ohio State — Fisher College of Business",
+    dept: "Management & Human Resources",
+    position: "Open-Rank Professor — Artificial Intelligence",
+    type: "Open Rank",
+    country: "USA",
+    field: "AI, Strategy",
+    salary: "$180,000 – $300,000 (est., rank dependent)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    posted: "2025-10-01",
+    link: "https://fisher.osu.edu/faculty-recruitment",
+    notes: "Open rank; AI focus"
+  },
+  {
+    school: "Utah Valley University",
+    dept: "Technology Management",
+    position: "Assistant Professor — Applied AI",
+    type: "Tenure Track",
+    country: "USA",
+    field: "AI",
+    salary: "$95,000 – $115,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2026-02-01",
+    link: "https://www.uvu.edu/hr/careers/",
+    notes: "Teaching-intensive regional"
+  },
+  {
+    school: "West Virginia University — John Chambers College",
+    dept: "Management",
+    position: "Assistant/Associate Professor — Entrepreneurship / Strategy",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy, Entrepreneurship",
+    salary: "$140,000 – $175,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2025-11-15",
+    link: "https://careers.insidehighered.com/jobs/business-and-management/",
+    notes: "R1; AACSB; open rank (Asst or Assoc)"
+  },
+  {
+    school: "Stony Brook University — College of Business",
+    dept: "Management (OBSE Group)",
+    position: "Assistant/Associate Professor — Strategy / Entrepreneurship & AI",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy, AI, Entrepreneurship",
+    salary: "$170,000 – $210,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Sep 1, 2026",
+    posted: "2026-05-20",
+    link: "https://career-center.aom.org/job/assistant-associate-professor-in-strategy-entrepreneurship-ai-management-obse-stony-brook-new-york-0992",
+    notes: "3 courses/yr; AI + Strategy + Entrep integration; R1 SUNY flagship"
+  },
+  {
+    school: "Pennsylvania State University — Smeal College of Business",
+    dept: "Management & Organization",
+    position: "Open-Rank — Strategy / Organizational Behavior / Organizational Theory",
+    type: "Open Rank",
+    country: "USA",
+    field: "Strategy",
+    salary: "$210,000 – $275,000 (est., rank dependent)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    posted: "2026-05-25",
+    link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179191435",
+    notes: "Top-20 M&O dept; two lines open; R1 elite",
+    isNew: true
+  },
+  {
+    school: "Texas Christian University — Neeley School",
+    dept: "Entrepreneurship & Innovation",
+    position: "Assistant/Associate Professor — Entrepreneurship & Innovation",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Entrepreneurship",
+    salary: "$170,000 – $200,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2026-05-10",
+    link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179160841",
+    notes: "Separate from TCU Strategic Management line; Neeley top-100 private",
+    isNew: true
+  },
+  {
+    school: "University of Tennessee Knoxville — Haslam",
+    dept: "Management & Entrepreneurship",
+    position: "Assistant/Associate Professor — Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Entrepreneurship",
+    salary: "$170,000 – $210,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 1, 2026",
+    posted: "2026-05-15",
+    link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179160841",
+    notes: "Separate line from UTK AI/ML analytics position; R1 strong",
+    isNew: true
+  },
+  {
+    school: "Temple University — Fox School of Business",
+    dept: "Strategic Management",
+    position: "Open-Rank — Strategy / Entrepreneurship / International Business",
+    type: "Open Rank",
+    country: "USA",
+    field: "Strategy, Entrepreneurship",
+    salary: "$170,000 – $215,000 (est., rank dependent)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    posted: "2026-05-22",
+    link: "https://ent.aom.org/discussion/open-rank-tenure-track-faculty-position-strategy-entrepreneurship-international-business",
+    notes: "Open rank TT; any seniority welcome; R1 urban",
+    isNew: true
+  },
+  {
+    school: "Roosevelt University",
+    dept: "Management",
+    position: "Assistant Professor — Strategic Management",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy",
+    salary: "$110,000 – $140,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    posted: "2026-03-10",
+    link: "https://jobs.roosevelt.edu/postings/8296",
+    notes: "Chicago; teaching-research balance; AACSB",
+    isNew: true
+  },
+  {
+    school: "Louisiana State University Shreveport",
+    dept: "College of Business — Management",
+    position: "Assistant Professor — Strategy & Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Strategy, Entrepreneurship",
+    salary: "$110,000 – $145,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2026-05-01",
+    link: "https://higheredjobs.com/state/details.cfm?JobCode=179268507",
+    notes: "9-month TT; AACSB; regional R2",
+    isNew: true
+  },
+  {
+    school: "Rowan University — Rohrer College of Business",
+    dept: "School of Innovation & Entrepreneurship",
+    position: "Assistant/Associate Professor — Entrepreneurship",
+    type: "Tenure Track",
+    country: "USA",
+    field: "Entrepreneurship",
+    salary: "$110,000 – $140,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Fall 2026",
+    posted: "2026-04-01",
+    link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179035734",
+    notes: "AACSB; dedicated entrepreneurship school",
+    isNew: true
+  },
+  {
+    school: "University of New Brunswick — Saint John",
+    dept: "Faculty of Business",
+    position: "Assistant/Associate Professor — Strategy",
+    type: "Tenure Track",
+    country: "Canada",
+    field: "Strategy, Entrepreneurship",
+    salary: "CAD $115,000 – $145,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Apr 27, 2026 (review begins, open after)",
+    start: "Jul 1, 2026",
+    posted: "2026-03-01",
+    link: "https://www.academicwork.ca/jobs/tenure-track-assistant-or-associate-professor-in-strategy-university-of-new-brunswick-saint-john",
+    notes: "PhD with focus on Business/Corporate Strategy; AACSB preferred"
+  },
+  {
+    school: "Wilfrid Laurier University — Lazaridis School",
+    dept: "Strategic Management",
+    position: "Assistant Professor — Strategic Management",
+    type: "Tenure Track",
+    country: "Canada",
+    field: "Strategy",
+    salary: "CAD $140,000 – $165,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Jul 1, 2026",
+    posted: "2025-11-01",
+    link: "https://www.academicwork.ca/jobs/assistant-professor-strategic-management-tenure-track-wilfrid-laurier-university",
+    notes: "Waterloo, ON; AACSB; business-only school"
+  },
+  {
+    school: "University of Toronto — Rotman",
+    dept: "Strategic Management",
+    position: "Assistant Professor — Strategy",
+    type: "Tenure Track",
+    country: "Canada",
+    field: "Strategy",
+    salary: "CAD $160,000 – $200,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "Jul 2026",
+    posted: "2025-09-01",
+    link: "https://jobs.utoronto.ca/go/Faculty-Opportunities/2607417/",
+    notes: "Top-tier R1 Canada"
+  },
+  {
+    school: "University of Alberta — Alberta School of Business",
+    dept: "Strategy, Entrepreneurship & Management",
+    position: "Tenure-Track Faculty — Strategy / Entrepreneurship / Management (3 lines)",
+    type: "Tenure Track",
+    country: "Canada",
+    field: "Strategy, Entrepreneurship",
+    salary: "CAD $160,000 – $205,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Nov 13, 2026",
+    start: "Jul 1, 2027",
+    posted: "2026-05-12",
+    link: "https://www.careers.ualberta.ca/Competition/A103051618/",
+    notes: "3 open lines across Strategy/Entrep/Mgmt; R1 Canada"
+  },
+  {
+    school: "American University of Sharjah",
+    dept: "Management, Strategy & Entrepreneurship",
+    position: "Assistant Professor — Strategy & Entrepreneurship",
+    type: "Tenure Track",
+    country: "UAE",
+    field: "Strategy, Entrepreneurship",
+    salary: "USD $115,000 – $155,000 + housing (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Aug 2026",
+    posted: "2026-02-15",
+    link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179267826",
+    notes: "AACSB; tax-free UAE; distinct from University of Sharjah"
+  },
+  {
+    school: "University of Sharjah",
+    dept: "College of Business Administration — Management",
+    position: "Assistant/Associate Professor — Management",
+    type: "Tenure Track",
+    country: "UAE",
+    field: "Strategy, Entrepreneurship",
+    salary: "AED 35,000–50,000/mo + housing (est., ≈ USD $115-165k)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "Fall 2026",
+    posted: "2026-01-01",
+    link: "https://academicpositions.com/employer/university-sharjah",
+    notes: "Tax-free; housing allowance; relocation"
+  },
+  {
+    school: "NYU Abu Dhabi",
+    dept: "Social Science / Business",
+    position: "Assistant Professor — Management & Organizations",
+    type: "Tenure Track",
+    country: "UAE",
+    field: "Strategy",
+    salary: "USD $180,000 – $230,000 + housing (est.)",
+    salaryConfirmed: false,
+    deadline: "Open until filled",
+    start: "Sep 2026",
+    posted: "2025-10-01",
+    link: "https://nyuad.nyu.edu/en/about/careers/faculty.html",
+    notes: "Tax-free; NYU global network"
+  },
+  {
+    school: "Khalifa University",
+    dept: "Industrial & Systems Engineering / Management",
+    position: "Assistant/Associate Professor — Strategy & Innovation",
+    type: "Tenure Track",
+    country: "UAE",
+    field: "Strategy, AI",
+    salary: "USD $130,000 – $170,000 + housing (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "Fall 2026",
+    posted: "2026-01-01",
+    link: "https://www.ku.ac.ae/careers",
+    notes: "Tax-free; STEM-heavy"
+  },
+  {
+    school: "University of Melbourne — Melbourne Business School",
+    dept: "Management & Marketing",
+    position: "Lecturer / Senior Lecturer — Strategy",
+    type: "Tenure Track",
+    country: "Australia",
+    field: "Strategy",
+    salary: "AUD $120,000 – $165,000 (est.; Level B/C)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    posted: "2026-01-01",
+    link: "https://academicpositions.com/employer/the-university-of-melbourne",
+    notes: "Lecturer (AU) ≈ Asst Prof (US); continuing/TT equivalent"
+  },
+  {
+    school: "University of Sydney Business School",
+    dept: "Strategy, Innovation & Entrepreneurship",
+    position: "Lecturer / Senior Lecturer — Strategy & Innovation",
+    type: "Tenure Track",
+    country: "Australia",
+    field: "Strategy, Entrepreneurship",
+    salary: "AUD $125,000 – $165,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    posted: "2025-11-01",
+    link: "https://www.sydney.edu.au/about-us/careers-at-sydney/academic-careers.html",
+    notes: "Group of Eight; Level B/C continuing"
+  },
+  {
+    school: "UNSW Business School",
+    dept: "Strategy & Entrepreneurship",
+    position: "Lecturer / Senior Lecturer — Strategy",
+    type: "Tenure Track",
+    country: "Australia",
+    field: "Strategy",
+    salary: "AUD $120,000 – $160,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    posted: "2025-12-01",
+    link: "https://external-careers.jobs.unsw.edu.au/cw/en/listing/",
+    notes: "Top Australian business school"
+  },
+  {
+    school: "University of Auckland Business School",
+    dept: "Management & International Business",
+    position: "Lecturer / Senior Lecturer — Strategy",
+    type: "Tenure Track",
+    country: "New Zealand",
+    field: "Strategy, Entrepreneurship",
+    salary: "NZD $105,000 – $145,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    posted: "2025-12-01",
+    link: "https://www.auckland.ac.nz/en/about-us/about-the-university/careers-at-auckland.html",
+    notes: "Top NZ business school; triple-crown"
+  },
+  {
+    school: "University of Auckland Business School",
+    dept: "Management & Intl Business / ISOM",
+    position: "Lecturer to Associate Professor — International Strategy & GVC",
+    type: "Tenure Track",
+    country: "New Zealand",
+    field: "Strategy",
+    salary: "NZD $99,788 – $165,808+ (Lect–AssocProf)",
+    salaryConfirmed: true,
+    deadline: "Aug 1, 2026",
+    start: "2026",
+    posted: "2026-03-15",
+    link: "https://akadeus.com/announcement/9745",
+    notes: "GVC resilience, B2B, export strategy; triple-crown; rolling review"
+  },
+  {
+    school: "University of Auckland Business School",
+    dept: "Information Systems & Operations Mgmt / MIB",
+    position: "Lecturer to Associate Professor — AI & Digital Entrepreneurship",
+    type: "Tenure Track",
+    country: "New Zealand",
+    field: "AI, Entrepreneurship",
+    salary: "NZD $99,788 – $165,808+ (Lect–AssocProf)",
+    salaryConfirmed: true,
+    deadline: "Aug 1, 2026",
+    start: "2026",
+    posted: "2026-03-15",
+    link: "https://akadeus.com/announcement/9747",
+    notes: "Human-AI systems, digital entrepreneurship, platform strategy; CODE Centre"
+  },
+  {
+    school: "Victoria University of Wellington",
+    dept: "School of Management",
+    position: "Lecturer — Strategy / Entrepreneurship",
+    type: "Tenure Track",
+    country: "New Zealand",
+    field: "Strategy, Entrepreneurship",
+    salary: "NZD $100,000 – $130,000 (est.)",
+    salaryConfirmed: false,
+    deadline: "Rolling",
+    start: "2026",
+    posted: "2025-12-01",
+    link: "https://www.wgtn.ac.nz/about/careers",
+    notes: "Capital city; AACSB"
+  }
+];
 
+// ===== Stats =====
+function renderStats() {
+  const el = document.getElementById('stats');
+  const total = JOBS.length;
+  const tt = JOBS.filter(j => j.type === 'Tenure Track').length;
+  const ai = JOBS.filter(j => j.field.includes('AI')).length;
+  const strat = JOBS.filter(j => j.field.includes('Strategy')).length;
+  const ent = JOBS.filter(j => j.field.includes('Entrepreneurship')).length;
+  const countries = new Set(JOBS.map(j => j.country)).size;
+  el.innerHTML = [
+    {v: total, l: 'Open positions'},
+    {v: tt, l: 'Tenure track'},
+    {v: strat, l: 'Strategy'},
+    {v: ai, l: 'AI / Analytics'},
+    {v: ent, l: 'Entrepreneurship'},
+    {v: countries, l: 'Countries'}
+  ].map(s => `<div class="stat"><div class="v">${s.v}</div><div class="l">${s.l}</div></div>`).join('');
+}
+
+// ===== Helpers =====
 const activeFilters = { country: 'all', field: 'all', type: 'all' };
 let searchText = '';
 let grid;
 
 function fieldTag(f) {
   const cls = f === 'Strategy' ? 'tag-strategy' : f === 'AI' ? 'tag-ai' : f === 'Entrepreneurship' ? 'tag-entrep' : 'tag-mgmt';
-  return '<span class="tag ' + cls + '">' + f + '</span>';
+  return `<span class="tag ${cls}">${f}</span>`;
 }
 function typeTag(t) {
   const cls = t === 'Tenure Track' ? 'tag-tt' : t === 'Non-Tenure Track' ? 'tag-ntt' : t === 'Lecturer' ? 'tag-lect' : t === 'Open Rank' ? 'tag-open' : 'tag-vap';
-  return '<span class="tag ' + cls + '">' + t + '</span>';
+  return `<span class="tag ${cls}">${t}</span>`;
 }
 function deadlineFmt(d) {
   if (!d) return '';
-  const m = (d || '').match(/([A-Za-z]+ \d{1,2},? \d{4})/);
+  const m = d.match(/([A-Za-z]+ \d{1,2},? \d{4})/);
   if (m) {
     const dt = new Date(m[1]);
     const days = (dt - new Date()) / 86400000;
-    if (days >= 0 && days <= 14) return '<span class="deadline-urgent">' + d + '</span>';
-    if (days >= 0 && days <= 45) return '<span class="deadline-soon">' + d + '</span>';
+    if (days >= 0 && days <= 14) return `<span class="deadline-urgent">${d} ⚠</span>`;
+    if (days >= 0 && days <= 45) return `<span class="deadline-soon">${d}</span>`;
   }
   return d;
 }
 function salaryFmt(s, confirmed) {
-  const cls = confirmed ? 'salary-confirmed' : 'salary-est';
-  return '<span class="' + cls + '">' + (s || '') + '</span>';
+  return confirmed ? `<span class="salary-confirmed">${s}</span>` : `<span class="salary-est">${s}</span>`;
+}
+function postedFmt(dateStr) {
+  if (!dateStr) return '<span class="posted-old">—</span>';
+  const dt = new Date(dateStr);
+  const days = (new Date() - dt) / 86400000;
+  const label = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  if (days <= 14)  return `<span class="posted-new">${label}</span>`;
+  if (days <= 60)  return `<span class="posted-mid">${label}</span>`;
+  return `<span class="posted-old">${label}</span>`;
 }
 
 function filteredJobs() {
-  return JOBS.filter(function (j) {
+  return JOBS.filter(j => {
     if (activeFilters.country !== 'all' && j.country !== activeFilters.country) return false;
-    if (activeFilters.field !== 'all' && !(j.field || '').includes(activeFilters.field)) return false;
+    if (activeFilters.field !== 'all' && !j.field.includes(activeFilters.field)) return false;
     if (activeFilters.type !== 'all' && j.type !== activeFilters.type) return false;
     if (searchText) {
       const t = searchText.toLowerCase();
-      const hay = ((j.school || '') + ' ' + (j.dept || '') + ' ' + (j.position || '') + ' ' + (j.field || '') + ' ' + (j.notes || '')).toLowerCase();
+      const hay = (j.school + ' ' + j.dept + ' ' + j.position + ' ' + j.field + ' ' + j.notes).toLowerCase();
       if (!hay.includes(t)) return false;
     }
     return true;
   });
 }
 
-function renderStats() {
-  const el = document.getElementById('stats');
-  const list = JOBS;
-  const total = list.length;
-  const tt = list.filter(function (j) { return j.type === 'Tenure Track'; }).length;
-  const ai = list.filter(function (j) { return (j.field || '').includes('AI'); }).length;
-  const strat = list.filter(function (j) { return (j.field || '').includes('Strategy'); }).length;
-  const ent = list.filter(function (j) { return (j.field || '').includes('Entrepreneurship'); }).length;
-  const countries = new Set(list.map(function (j) { return j.country; })).size;
-  const items = [
-    { v: total, l: 'Open positions' },
-    { v: tt, l: 'Tenure track' },
-    { v: strat, l: 'Strategy' },
-    { v: ai, l: 'AI / Analytics' },
-    { v: ent, l: 'Entrepreneurship' },
-    { v: countries, l: 'Countries' }
-  ];
-  el.innerHTML = items.map(function (s) { return '<div class="stat"><div class="v">' + s.v + '</div><div class="l">' + s.l + '</div></div>'; }).join('');
-}
-
 function rowsForGrid() {
-  return filteredJobs().map(function (j) {
-    return [
-      '<div class="school">' + (j.school || '') + '</div><div class="dept">' + (j.dept || '') + '</div>',
-      j.position || '',
-      typeTag(j.type || ''),
-      j.country || '',
-      (j.field || '').split(',').map(function (f) { return fieldTag(f.trim()); }).join(' '),
-      salaryFmt(j.salary, j.salaryConfirmed),
-      deadlineFmt(j.deadline),
-      j.start || '',
-      '<a class="col-link" href="' + (j.link || '#') + '" target="_blank" rel="noopener">View &rarr;</a>',
-      '<div style="color:#475569;font-size:11px">' + (j.notes || '') + '</div>'
-    ];
-  });
+  return filteredJobs().map(j => [
+    `<div class="school">${j.school}${j.isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="dept">${j.dept}</div>`,
+    j.position,
+    typeTag(j.type),
+    j.country,
+    j.field.split(',').map(f => fieldTag(f.trim())).join(' '),
+    salaryFmt(j.salary, j.salaryConfirmed),
+    postedFmt(j.posted),
+    deadlineFmt(j.deadline),
+    j.start,
+    `<a class="col-link" href="${j.link}" target="_blank" rel="noopener">View →</a>`,
+    `<div class="notes-cell">${j.notes || ''}</div>`
+  ]);
 }
 
 function renderTable() {
   const target = document.getElementById('table');
-  if (grid) {
-    grid.updateConfig({ data: rowsForGrid() }).forceRender();
-    return;
-  }
+  if (grid) { grid.destroy(); target.innerHTML = ''; }
   grid = new gridjs.Grid({
     columns: [
-      { name: 'School / Dept', formatter: function (c) { return gridjs.html(c); } },
-      { name: 'Position' },
-      { name: 'Type', formatter: function (c) { return gridjs.html(c); } },
-      { name: 'Country' },
-      { name: 'Field', formatter: function (c) { return gridjs.html(c); } },
-      { name: 'Salary', formatter: function (c) { return gridjs.html(c); } },
-      { name: 'Deadline', formatter: function (c) { return gridjs.html(c); } },
-      { name: 'Start' },
-      { name: 'Apply', formatter: function (c) { return gridjs.html(c); } },
-      { name: 'Notes', formatter: function (c) { return gridjs.html(c); } }
+      { name: 'School / Dept',  width: '220px', formatter: c => gridjs.html(c) },
+      { name: 'Position',       width: '200px' },
+      { name: 'Type',           width: '90px',  formatter: c => gridjs.html(c) },
+      { name: 'Country',        width: '75px' },
+      { name: 'Field',          width: '110px', formatter: c => gridjs.html(c) },
+      { name: 'Salary',         width: '150px', formatter: c => gridjs.html(c) },
+      { name: 'Posted',         width: '95px',  formatter: c => gridjs.html(c) },
+      { name: 'Deadline',       width: '110px', formatter: c => gridjs.html(c) },
+      { name: 'Start',          width: '75px' },
+      { name: 'Apply',          width: '60px',  formatter: c => gridjs.html(c) },
+      { name: 'Notes',          width: '160px', formatter: c => gridjs.html(c) }
     ],
     data: rowsForGrid(),
     sort: true,
-    resizable: true,
-    style: { table: { 'white-space': 'normal' } }
+    resizable: true
   }).render(target);
 }
 
+// ===== Packet checklist =====
+const PACKET_FIELDS = ['CV', 'Cover Ltr', 'Research', 'Teaching', 'EDI', 'JMP', 'Refs (3)'];
+const packetState = {};
 function renderPacket() {
   const el = document.getElementById('packet');
-  const head = '<div class="packet-row header"><div>School / Position</div>' + PACKET_FIELDS.map(function (f) { return '<div class="cell-center">' + f + '</div>'; }).join('') + '<div>Status</div></div>';
-  const rows = filteredJobs().map(function (j) {
-    const key = (j.school || '') + '|' + (j.position || '');
-    if (!packetState[key]) packetState[key] = { 'CV': true, 'Cover Ltr': false, 'Research': false, 'Teaching': false, 'EDI': false, 'JMP': false, 'Refs (3)': false };
-    const cells = PACKET_FIELDS.map(function (f) {
+  const head = `<div class="packet-row header"><div>School / Position</div>${PACKET_FIELDS.map(f => `<div class="cell-center">${f}</div>`).join('')}<div>Status</div></div>`;
+  const rows = filteredJobs().map(j => {
+    const key = j.school + '|' + j.position;
+    if (!packetState[key]) packetState[key] = { CV: true, 'Cover Ltr': false, Research: false, Teaching: false, EDI: false, JMP: false, 'Refs (3)': false };
+    const cells = PACKET_FIELDS.map(f => {
       const yes = packetState[key][f];
-      return '<div class="cell-center"><span class="check ' + (yes ? 'yes' : 'no') + '" data-key="' + key + '" data-field="' + f + '" style="cursor:pointer">' + (yes ? '&check;' : '&#9675;') + '</span></div>';
+      return `<div class="cell-center"><span class="check ${yes ? 'yes' : 'no'}" data-key="${key}" data-field="${f}" style="cursor:pointer">${yes ? '✓' : '○'}</span></div>`;
     }).join('');
-    const done = PACKET_FIELDS.filter(function (f) { return packetState[key][f]; }).length;
+    const done = PACKET_FIELDS.filter(f => packetState[key][f]).length;
     const pct = Math.round(100 * done / PACKET_FIELDS.length);
-    return '<div class="packet-row"><div><strong>' + (j.school || '') + '</strong><div class="dept">' + (j.position || '') + '</div></div>' + cells + '<div class="cell-center" style="font-size:11px;color:#475569">' + done + '/' + PACKET_FIELDS.length + ' (' + pct + '%)</div></div>';
+    return `<div class="packet-row"><div><strong>${j.school}</strong><div class="dept">${j.position}</div></div>${cells}<div class="cell-center" style="font-size:11px;color:#475569">${done}/${PACKET_FIELDS.length} (${pct}%)</div></div>`;
   }).join('');
   el.innerHTML = head + rows;
-  el.querySelectorAll('.check').forEach(function (c) {
-    c.addEventListener('click', function () {
+  el.querySelectorAll('.check').forEach(c => {
+    c.addEventListener('click', () => {
       const k = c.dataset.key, f = c.dataset.field;
       packetState[k][f] = !packetState[k][f];
-      try { localStorage.setItem('packet', JSON.stringify(packetState)); } catch (e) {}
+      try { localStorage.setItem('packet', JSON.stringify(packetState)); } catch(e){}
       renderPacket();
     });
   });
 }
 
-function renderSources(status) {
-  const sub = document.getElementById('sources-sub');
-  const gridEl = document.getElementById('sources-grid');
-  if (!status || !status.sources) {
-    sub.textContent = 'No scan has run yet. The daily GitHub Actions workflow populates this on first run.';
-    return;
-  }
-  const ts = new Date(status.last_run).toLocaleString();
-  sub.innerHTML = 'Last scanned <strong>' + ts + '</strong> &middot; ' + status.total_jobs + ' total jobs &middot; ' + status.new_this_run + ' new this run.';
-  gridEl.innerHTML = Object.entries(status.sources).map(function (entry) {
-    const name = entry[0], s = entry[1];
-    const ok = s.ok ? '&check;' : '&#10005;';
-    const color = s.ok ? '#16a34a' : '#dc2626';
-    return '<div class="source-card"><div class="name"><span style="color:' + color + ';margin-right:4px;">' + ok + '</span>' + name + '</div>' +
-      '<div class="meta">' + (s.matched || 0) + ' matched, ' + (s.new || 0) + ' new' + (s.error ? ' &middot; err: ' + String(s.error).slice(0, 80) : '') + '</div>' +
-      '<a href="' + s.url + '" target="_blank" rel="noopener" style="font-size:11px;">' + s.url + '</a></div>';
-  }).join('');
-}
+try {
+  const stored = localStorage.getItem('packet');
+  if (stored) Object.assign(packetState, JSON.parse(stored));
+} catch(e){}
 
-document.querySelectorAll('.chip').forEach(function (chip) {
-  chip.addEventListener('click', function () {
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
     const f = chip.dataset.filter;
     activeFilters[f] = chip.dataset.value;
-    document.querySelectorAll('.chip[data-filter="' + f + '"]').forEach(function (c) { c.classList.remove('active'); });
+    document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
     renderTable();
     renderPacket();
     renderStats();
   });
 });
-document.getElementById('search').addEventListener('input', function (e) {
+document.getElementById('search').addEventListener('input', e => {
   searchText = e.target.value;
   renderTable();
   renderPacket();
 });
 
-function bootstrap() {
-  fetch('jobs.json', { cache: 'no-store' })
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(function (data) { JOBS = data; })
-    .catch(function () { JOBS = []; })
-    .finally(function () { renderStats(); renderTable(); renderPacket(); });
-  fetch('sources_status.json', { cache: 'no-store' })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(renderSources)
-    .catch(function () { renderSources(null); });
-}
-bootstrap();
+renderStats();
+renderTable();
+renderPacket();
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
