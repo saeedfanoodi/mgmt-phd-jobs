@@ -1,7 +1,7 @@
 {
-  "last_run": "2026-05-26T16:44:05.107272Z",
+  "last_run": "2026-05-27T16:42:19.181196Z",
   "total_jobs": 37,
-  "new_this_run": 4,
+  "new_this_run": 1,
   "sources": {
     "HigherEdJobs - Management": {
       "ok": true,
@@ -41,7 +41,7 @@
     "ASAC Canada - Placements": {
       "ok": true,
       "matched": 2,
-      "new": 2,
+      "new": 0,
       "url": "https://asac.ca/job-postings/placements/",
       "error": null
     },
@@ -76,7 +76,7 @@
     "Google Sheet - Faculty Jobs (community)": {
       "ok": true,
       "matched": 2,
-      "new": 2,
+      "new": 1,
       "url": "https://docs.google.com/spreadsheets/d/1_GJuEMKVgGc6qq3IflXVtq4miDR-p4sQYHQYhHwNveQ/edit?gid=1242106999",
       "error": null
     }
