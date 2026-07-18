@@ -1,7 +1,7 @@
 {
-  "last_run": "2026-07-17T14:44:44.343358Z",
-  "total_jobs": 37,
-  "new_this_run": 0,
+  "last_run": "2026-07-18T14:20:34.799852Z",
+  "total_jobs": 38,
+  "new_this_run": 1,
   "sources": {
     "HigherEdJobs - Management": {
       "ok": true,
@@ -74,11 +74,11 @@
       "error": "403 Client Error: Forbidden for url: https://www.siop.org/Career-Center/Job-Search"
     },
     "Google Sheet - Faculty Jobs (community)": {
-      "ok": false,
-      "matched": 0,
-      "new": 0,
+      "ok": true,
+      "matched": 3,
+      "new": 1,
       "url": "https://docs.google.com/spreadsheets/d/1_GJuEMKVgGc6qq3IflXVtq4miDR-p4sQYHQYhHwNveQ/edit?gid=1242106999",
-      "error": "429 Client Error: Too Many Requests for url: https://doc-0c-1g-sheets.googleusercontent.com/export/54bogvaave6cua4cdnls17ksc4/55k10v5rpgl4nsijaq8tcjgofg/1784299480000/108446339100957017059/*/1_GJuEMKVgGc6qq3IflXVtq4miDR-p4sQYHQYhHwNveQ?format=csv&gid=1242106999"
+      "error": null
     }
   }
 }
