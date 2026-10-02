@@ -1,5 +1,5 @@
 {
-  "last_run": "2026-10-01T18:43:08.494658Z",
+  "last_run": "2026-10-02T18:15:32.753053Z",
   "total_jobs": 57,
   "new_this_run": 0,
   "sources": {
@@ -75,7 +75,7 @@
     },
     "Google Sheet - Faculty Jobs (community)": {
       "ok": true,
-      "matched": 8,
+      "matched": 6,
       "new": 0,
       "url": "https://docs.google.com/spreadsheets/d/1_GJuEMKVgGc6qq3IflXVtq4miDR-p4sQYHQYhHwNveQ/edit?gid=1242106999",
       "error": null
