@@ -1,7 +1,7 @@
 {
-  "last_run": "2026-10-15T17:38:49.053072Z",
+  "last_run": "2026-10-16T17:11:50.401692Z",
   "total_jobs": 67,
-  "new_this_run": 1,
+  "new_this_run": 0,
   "sources": {
     "HigherEdJobs - Management": {
       "ok": true,
@@ -75,8 +75,8 @@
     },
     "Google Sheet - Faculty Jobs (community)": {
       "ok": true,
-      "matched": 9,
-      "new": 1,
+      "matched": 8,
+      "new": 0,
       "url": "https://docs.google.com/spreadsheets/d/1_GJuEMKVgGc6qq3IflXVtq4miDR-p4sQYHQYhHwNveQ/edit?gid=1242106999",
       "error": null
     }
